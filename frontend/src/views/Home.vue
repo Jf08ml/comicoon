@@ -48,6 +48,7 @@
         actionType="view"
         @prev-page="prevPage"
         @next-page="nextPage"
+        @open-serie="openSerie"
       />
 
       <div v-else class="container-primary-artists">
@@ -65,14 +66,17 @@
         </div>
       </div>
     </div>
+    <ModalLoading v-show="showModal" />
   </div>
 </template>
 
 <script setup>
 import { ref, onBeforeMount } from "vue";
 import LineDivider from "@/components/LineDivider.vue";
+import ModalLoading from "@/components/modals/ModalLoading.vue";
 import ListSeries from "@/components/ListSeries.vue";
 import { getSeriesData } from "@/services/series";
+import router from "@/router";
 
 const activeBtn = ref("newer");
 const type = ref("All");
@@ -81,6 +85,7 @@ const limit = ref(10);
 const totalPages = ref(0);
 const series = ref({});
 const showSeries = ref(false);
+const showModal = ref(false);
 const artists = ref({});
 
 onBeforeMount(async () => {
@@ -93,6 +98,7 @@ const handleButtonClick = (btnType) => {
 };
 
 const getSeries = async () => {
+  showModal.value = true;
   const response = await getSeriesData(
     type.value,
     activeBtn.value,
@@ -113,6 +119,7 @@ const getSeries = async () => {
     artists.value = response.top10Artists;
     showSeries.value = false;
   }
+  showModal.value = false;
 };
 
 const nextPage = () => {
@@ -132,50 +139,10 @@ const prevPage = () => {
     getSeries();
   }
 };
+
+const openSerie = (serie) => {
+  router.push(`/viewserie/${serie._id}`);
+};
 </script>
 
-<style>
-.container-primary-artists {
-  width: 100%;
-  height: 100%;
-  margin: auto;
-  overflow-y: auto;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
-
-.container-list-artists {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.list-artists {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  align-items: center;
-}
-
-.btn-artist {
-  background-color: #ffffff;
-  color: rgb(0, 0, 0);
-  border: none;
-  margin: 5px;
-  padding: 5px;
-  text-align: justify;
-  font-size: 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  width: 70%;
-}
-
-.btn-artist:hover {
-  background-color: #b81f59;
-  color: white;
-}
-</style>
+<style></style>

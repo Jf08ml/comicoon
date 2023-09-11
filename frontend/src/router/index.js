@@ -47,31 +47,33 @@ const routes = [
     path: "/profile",
     name: "profile",
     component: () =>
-      import(
-        /* webpackChunkName: "profile" */ "../views/Profile/Index.vue"
-      ),
+      import(/* webpackChunkName: "profile" */ "../views/Profile/Index.vue"),
     meta: { requiresAuth: true },
   },
   {
     path: "/upload",
     name: "Upload",
     component: () =>
-      import(
-        /* webpackChunkName: "profile" */ "../views/Profile/Index.vue"
-      ),
+      import(/* webpackChunkName: "profile" */ "../views/Profile/Index.vue"),
     meta: { requiresAuth: true },
+  },
+  {
+    path: "/viewserie/:id",
+    name: "viewserie",
+    component: () =>
+      import(/* webpackChunkName: "viewserie"*/ "../components/SeeSerie.vue"),
   },
 ];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
-})
+  routes,
+});
 
 router.beforeEach((to) => {
   const authStore = useAuthStore();
 
-  if (to.meta.requiresAuth && !authStore.isAuthenticated) return '/login';
-})
+  if (to.meta.requiresAuth && !authStore.isAuthenticated) return "/login";
+});
 
 export default router;

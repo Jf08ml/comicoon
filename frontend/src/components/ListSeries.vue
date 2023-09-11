@@ -153,9 +153,9 @@ const actionCard = (serie) => {
     justify-content: center;
     align-items: center;
     width: 100%;
-    margin: 5px;
+    margin: 3px;
     position: relative;
-    width: calc(40% - 5px);
+    width: calc(48% - 5px);
     box-sizing: border-box;
   }
 }
