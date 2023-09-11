@@ -1,0 +1,79 @@
+@import './partials/variables.scss';
+@import './partials/navbar.scss';
+@import './partials/buttons.scss';
+@import './auth/Login&Register.scss';
+@import './home/home.scss';
+
+body {
+    font-family: $primary-font;
+    font-size: $font-size;
+    background-image: radial-gradient(circle at 50% -20.71%, #505467 0, #191e29 50%, #020e2e 100%);
+    background-attachment: fixed;
+    margin: 0px;
+    height: 97vh;
+    width: 100vw;
+}
+
+.container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.header {
+    flex: 0 0 6%;
+    width: 100%;
+}
+
+.body {
+    flex: 1;
+    width: 100%;
+}
+
+h3 {
+    color: white;
+}
+
+// Estilos de input
+input,
+select {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    border: 2px solid $primary-color;
+    border-radius: 20px;
+    font-size: $font-size;
+    margin: 15px;
+    padding: 10px;
+    width: 100%;
+
+    @media screen and (max-width:900px) {
+        transition: all 0.2s ease-in-out;
+    }
+
+    &:focus {
+        border: 1px solid $primary-color;
+        box-shadow: 0px 0px 4px darken($primary-color, 1%);
+        outline: none;
+    }
+}
+
+.custom-router-link {
+    color: #ffffff;
+    display: inline-block;
+    width: auto;
+    white-space: nowrap;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+}

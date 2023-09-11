@@ -1,0 +1,88 @@
+.container-auth {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.content {
+    background:white;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 2%;
+    width: 40%;
+    height: auto;
+    box-shadow: 0 0 20px black;
+    @media screen and (max-width:900px) {
+        transition: all 0.2s ease-in-out;
+        width: 80%;
+    }
+}
+
+.content-title {
+    width: 100%;
+    height: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.content-form {
+    width: 100%;
+    height: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+form {
+    width: 100%;
+    margin:  auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    p {
+        margin: 0px;
+        font-size: 10px;
+        color: red;
+    }
+    
+    span {
+        font-size: 10px;
+    }
+    
+}
+
+.form-register-div-input-nick {
+    display: flex; 
+    align-items: center; 
+    justify-content: flex-end; 
+    position: relative;
+    width: 70%;
+}
+
+.form-div-input {
+    display: flex; 
+    align-items: center; 
+    align-content: center;
+    width: 70%;
+}
+
+.input-register-nick {
+    width: 100%; 
+    position: relative;
+}
+
+.icon-register-nick {
+    position: absolute; 
+    right: 20px;
+    cursor: pointer;
+}
+
+.input-form {
+    width: 100%;
+}
+

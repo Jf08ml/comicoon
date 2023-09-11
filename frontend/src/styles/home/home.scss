@@ -1,0 +1,47 @@
+@import '../partials/variables.scss';
+
+.home-sections,
+.section {
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+}
+
+.home-sections {
+    height: 10%;
+    gap: 10px;
+}
+
+.section {
+    height: 90%;
+    padding: 20px;
+}
+
+.home-sections>div {
+    margin: 0 auto;
+}
+
+.button-options {
+    background-color: transparent;
+    border: none;
+    border-radius: 10px; // Moved this here as it's common for hover and active states
+    color: aliceblue;
+    padding-block: 10px;
+    padding-inline: 30px;
+    font-size: $font-size;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+
+    &:hover,
+    &-active {
+        background-color: $primary-color;
+    }
+
+    @media screen and (max-width:500px) {
+        font-size: calc(#{$font-size} - 3px);
+        transition: all 0.2s ease-in-out;
+    }
+}
