@@ -1,9 +1,8 @@
 <template>
-  <div style="overflow-y: auto">
-    <div class="row">
-      <div class="series" v-for="serie in series" :key="serie._id">
+  <div class="content-list-series">
+    <div class="series">
+      <div class="serie-item" v-for="serie in series" :key="serie._id">
         <CardDefault
-          class="card-styles"
           :title="serie.nameSerie"
           :description="serie.description"
           :image="serie.frontPage"
@@ -12,14 +11,7 @@
         />
       </div>
     </div>
-    <div
-      style="
-        margin: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      "
-    >
+    <div class="buttons-navigation">
       <button
         class="btn-navigation"
         @click="emitPrevPage"
@@ -83,39 +75,36 @@ const actionCard = (serie) => {
 </script>
 
 <style scoped>
-.row {
+.content-list-series {
   display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  justify-content: space-around;
+  flex-direction: column;
+  margin: auto;
+  width: auto;
 }
-
 .series {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+  height: 80%;
   width: 100%;
-  margin: 10px;
-  position: relative;
-  width: calc(18% - 5px);
   box-sizing: border-box;
 }
-
-.card-styles {
-  width: 100%;
+.serie-item {
+  width: 10%;
   height: 250px;
-  margin: 10px;
-  border: 1px solid black;
-  border-radius: 5px;
-  cursor: pointer;
+  margin: 0;
 }
 
-.card-styles:hover {
-  box-shadow: 0 0 40px #b81f59;
-}
 
+.buttons-navigation {
+  height: 20%;
+  margin-block: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .btn-navigation {
-  background-color: #b81f59;
+  background-color: #da2644;
   color: white;
   border: none;
   margin: 2px;
@@ -136,27 +125,5 @@ const actionCard = (serie) => {
   cursor: pointer;
   width: 5%;
   height: 10%;
-}
-
-@media screen and (max-width: 700px) {
-  .btn-navigation {
-    width: 10%;
-  }
-  .card-styles {
-    width: 100%;
-    height: 200px;
-    border: 1px solid black;
-  }
-
-  .series {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin: 3px;
-    position: relative;
-    width: calc(48% - 5px);
-    box-sizing: border-box;
-  }
 }
 </style>

@@ -4,7 +4,7 @@
       <Navbar />
     </div>
     <div class="body">
-      <router-view />
+      <router-view style="width: 100%; height: 100%; box-sizing: border-box;"/>
     </div>
   </div>
 </template>

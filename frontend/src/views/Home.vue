@@ -40,18 +40,19 @@
     </div>
     <LineDivider />
     <div class="section">
-      <ListSeries
-        v-if="showSeries"
-        :series="series"
-        :page="page"
-        :totalPages="totalPages"
-        actionType="view"
-        @prev-page="prevPage"
-        @next-page="nextPage"
-        @open-serie="openSerie"
-      />
+      <div v-if="showSeries" class="section-series">
+        <ListSeries
+          :series="series"
+          :page="page"
+          :totalPages="totalPages"
+          actionType="view"
+          @prev-page="prevPage"
+          @next-page="nextPage"
+          @open-serie="openSerie"
+        />
+      </div>
 
-      <div v-else class="container-primary-artists">
+      <div v-else class="section-artists">
         <div class="container-list-artists">
           <h3>These are the most popular artists</h3>
           <div
@@ -81,8 +82,9 @@ import router from "@/router";
 const activeBtn = ref("newer");
 const type = ref("All");
 const page = ref(1);
-const limit = ref(10);
+const limit = ref(24);
 const totalPages = ref(0);
+const disabledNext = ref(false);
 const series = ref({});
 const showSeries = ref(false);
 const showModal = ref(false);

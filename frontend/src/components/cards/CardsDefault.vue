@@ -22,7 +22,6 @@ const props = defineProps({
   width: 100%;
   height: 100%;
   background: #333;
-  box-shadow: 0 0 5px #b81f59;
   transition: transform 0.3s;
 }
 
