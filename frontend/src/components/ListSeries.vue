@@ -95,7 +95,6 @@ const actionCard = (serie) => {
   margin: 0;
 }
 
-
 .buttons-navigation {
   height: 20%;
   margin-block: 20px;
@@ -125,5 +124,29 @@ const actionCard = (serie) => {
   cursor: pointer;
   width: 5%;
   height: 10%;
+}
+
+/* Pantallas grandes (escritorio) */
+@media (min-width: 1200px) {
+  .serie-item {
+    width: calc(100% / 7); /* 7 tarjetas por fila */
+    height: auto; /* Ajusta según tus necesidades */
+  }
+}
+
+/* Pantallas medianas (tabletas) */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .serie-item {
+    width: calc(100% / 4); /* 4 tarjetas por fila */
+    height: auto; /* Ajusta según tus necesidades */
+  }
+}
+
+/* Pantallas pequeñas (móviles) */
+@media (max-width: 767px) {
+  .serie-item {
+    width: calc(100% / 2); /* 2 tarjetas por fila */
+    height: auto; /* Ajusta según tus necesidades */
+  }
 }
 </style>
