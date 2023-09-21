@@ -118,7 +118,7 @@ async function postRateComic(req, res) {
   }
 }
 
-async function assignScore(req, res) {
+async function assignScoreComic(req, res) {
   try {
     const { comicId } = req.body;
     const comic = await Comic.findById(comicId);
@@ -143,7 +143,7 @@ async function assignScore(req, res) {
   }
 }
 
-async function countViews(req, res) {
+async function countViewsComic(req, res) {
   try {
     const { comicId } = req.body;
     const comic = await Comic.findById(comicId);
@@ -167,6 +167,6 @@ export {
   getAzarComics,
   putComic,
   postRateComic,
-  assignScore,
-  countViews,
+  assignScoreComic,
+  countViewsComic,
 };

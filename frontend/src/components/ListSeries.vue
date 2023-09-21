@@ -11,34 +11,6 @@
         />
       </div>
     </div>
-    <div class="buttons-navigation">
-      <button
-        class="btn-navigation"
-        @click="emitPrevPage"
-        :disabled="page === 1"
-        :class="{ 'btn-navigation-blocked': page === 1 }"
-      >
-        «
-      </button>
-      <span
-        style="
-          margin-inline: 5px;
-          color: whitesmoke;
-          text-shadow: 0 0 5px black;
-          -webkit-text-stroke: 1px rgb(129, 114, 114); /* Para navegadores basados en Webkit como Chrome y Safari */
-        "
-        >Página {{ page }} de {{ totalPages }}</span
-      >
-
-      <button
-        class="btn-navigation"
-        @click="emitNextPage"
-        :disabled="page === totalPages"
-        :class="{ 'btn-navigation-blocked': page === totalPages }"
-      >
-        »
-      </button>
-    </div>
   </div>
 </template>
 
@@ -48,20 +20,10 @@ import CardDefault from "@/components/cards/CardsDefault.vue";
 
 const props = defineProps({
   series: Object,
-  page: Number,
-  totalPages: Number,
   actionType: String,
 });
 
-const emit = defineEmits([
-  "prev-page",
-  "next-page",
-  "open-serie",
-  "selected-serie",
-]);
-
-const emitNextPage = () => emit("next-page");
-const emitPrevPage = () => emit("prev-page");
+const emit = defineEmits(["open-serie", "selected-serie"]);
 const emitOpenSerie = (id) => emit("open-serie", id);
 const emitSelectedSerie = (id) => emit("selected-serie", id);
 
@@ -79,51 +41,20 @@ const actionCard = (serie) => {
   display: flex;
   flex-direction: column;
   margin: auto;
-  width: auto;
+  height: 100%;
+  width: 100%;
 }
 .series {
   display: flex;
   flex-wrap: wrap;
+  justify-items: center;
   gap: 2rem;
-  height: 80%;
+  height: auto;
   width: 100%;
   box-sizing: border-box;
 }
 .serie-item {
-  width: 10%;
-  height: 250px;
-  margin: 0;
-}
-
-.buttons-navigation {
-  height: 20%;
-  margin-block: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.btn-navigation {
-  background-color: #da2644;
-  color: white;
-  border: none;
-  margin: 2px;
-  font-size: 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  width: 5%;
-  height: 10%;
-}
-
-.btn-navigation-blocked {
-  background-color: #7e7e7e;
-  color: rgb(252, 252, 252);
-  border: none;
-  margin: 2px;
-  font-size: 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  width: 5%;
-  height: 10%;
+  margin: auto;
 }
 
 /* Pantallas grandes (escritorio) */
@@ -145,7 +76,7 @@ const actionCard = (serie) => {
 /* Pantallas pequeñas (móviles) */
 @media (max-width: 767px) {
   .serie-item {
-    width: calc(100% / 2); /* 2 tarjetas por fila */
+    width: calc(100% / 2.3); /* 2 tarjetas por fila */
     height: auto; /* Ajusta según tus necesidades */
   }
 }

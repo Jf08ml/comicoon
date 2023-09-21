@@ -7,7 +7,7 @@
             <v-icon
               name="pr-upload"
               scale="1.2"
-              title="Upload"
+              title="Upload serie or comic"
               :color="colorIcone"
             />
           </button>

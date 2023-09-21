@@ -3,6 +3,7 @@
     <div>
       <h1>{{ serie.nameSerie }}</h1>
     </div>
+    <LineDivider />
     <div class="content-description">
       <div class="content-img">
         <img :src="serie.frontPage" class="img-frontpage" />
@@ -31,7 +32,7 @@
       </div>
     </div>
     <div>
-      <h3 style="color: white">List of comics</h3>
+      <h2 style="color: white">List of comics</h2>
     </div>
     <div
       class="list-comics"
@@ -39,7 +40,7 @@
       :key="index"
     >
       <router-link class="custom-router-link" :to="`/viewcomic/${item}`">
-        {{ index }}.{{ serie.nameSerie }}
+        {{ index + 1}}.{{ serie.nameSerie }}
       </router-link>
     </div>
   </div>
@@ -49,6 +50,7 @@
 import { onBeforeMount, onMounted, onUnmounted, watch, ref } from "vue";
 import { getUserSerie } from "@/services/series";
 import { useRoute } from "vue-router";
+import LineDivider from "@/components/LineDivider.vue";
 import StarRating from "vue-star-rating";
 
 const route = useRoute();
@@ -125,8 +127,8 @@ h1 {
   background-color: #010101;
   justify-content: space-around;
   align-content: center;
-  width: 60vw;
-  padding: 10px;
+  width: 60%;
+  margin-block: 15px;
   border-radius: 5px;
 }
 
@@ -135,6 +137,7 @@ h1 {
   align-items: center;
   justify-content: center;
   align-content: center;
+  margin: 5px;
 }
 
 .content-description-comic {

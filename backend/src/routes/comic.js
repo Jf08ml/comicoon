@@ -7,8 +7,8 @@ import {
   putComic,
   getAzarComics,
   postRateComic,
-  assignScore,
-  countViews,
+  assignScoreComic,
+  countViewsComic,
 } from "../controllers/comicController";
 import verifyToken from "../middleware/auth";
 
@@ -18,7 +18,7 @@ router.get("/usercomic/:id", getUserComic);
 router.put("/putcomic", verifyToken, putComic);
 router.get("/azarcomics", getAzarComics);
 router.post("/rateComic", verifyToken, postRateComic);
-router.put("/assignScore", assignScore);
-router.put("/sumView", countViews);
+router.put("/assignScore", assignScoreComic);
+router.put("/sumView", countViewsComic);
 
 export default router;

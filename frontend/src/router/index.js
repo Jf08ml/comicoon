@@ -63,6 +63,12 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "viewserie"*/ "../components/SeeSerie.vue"),
   },
+  {
+    path: "/viewcomic/:id",
+    name: "viewcomic",
+    component: () =>
+      import(/* webpackChunkName: "viewcomic" */ "../components/SeeComic.vue"),
+  },
 ];
 
 const router = createRouter({

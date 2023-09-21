@@ -43,12 +43,17 @@
       <div v-if="showSeries" class="section-series">
         <ListSeries
           :series="series"
-          :page="page"
-          :totalPages="totalPages"
           actionType="view"
-          @prev-page="prevPage"
-          @next-page="nextPage"
           @open-serie="openSerie"
+        />
+        <Pagination
+          :currentPage="currentPage"
+          :totalPages="totalPages"
+          @prev-page="updatePage(currentPage - 1)"
+          @jump-prev-page="updatePage(currentPage - 5)"
+          @selected-page="updatePage"
+          @next-page="updatePage(currentPage + 1)"
+          @jump-next-page="updatePage(currentPage + 5)"
         />
       </div>
 
@@ -76,15 +81,15 @@ import { ref, onBeforeMount } from "vue";
 import LineDivider from "@/components/LineDivider.vue";
 import ModalLoading from "@/components/modals/ModalLoading.vue";
 import ListSeries from "@/components/ListSeries.vue";
+import Pagination from "@/components/Pagination.vue";
 import { getSeriesData } from "@/services/series";
 import router from "@/router";
 
 const activeBtn = ref("newer");
 const type = ref("All");
-const page = ref(1);
+const currentPage = ref(1);
 const limit = ref(24);
 const totalPages = ref(0);
-const disabledNext = ref(false);
 const series = ref({});
 const showSeries = ref(false);
 const showModal = ref(false);
@@ -104,7 +109,7 @@ const getSeries = async () => {
   const response = await getSeriesData(
     type.value,
     activeBtn.value,
-    page.value,
+    currentPage.value,
     limit.value,
     totalPages.value
   );
@@ -124,22 +129,9 @@ const getSeries = async () => {
   showModal.value = false;
 };
 
-const nextPage = () => {
-  if (page.value < totalPages.value) {
-    page.value += 1;
-    getSeries();
-  }
-
-  if (page.value === totalPages.value) {
-    disabledNext.value = true;
-  }
-};
-
-const prevPage = () => {
-  if (page.value > 1) {
-    page.value -= 1;
-    getSeries();
-  }
+const updatePage = async (page) => {
+  currentPage.value = page;
+  await getSeries();
 };
 
 const openSerie = (serie) => {

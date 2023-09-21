@@ -20,7 +20,7 @@ const props = defineProps({
   position: relative;
   overflow: hidden;
   width: 100%;
-  height: 100%;
+  height: 250px;
   background: #333;
   transition: transform 0.3s;
 }
