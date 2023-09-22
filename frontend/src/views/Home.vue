@@ -1,6 +1,6 @@
 <template>
   <div class="container-content">
-    <div class="home-sections">
+    <section class="home-sections">
       <div>
         <button
           class="button-options"
@@ -37,7 +37,7 @@
           Popular series
         </button>
       </div>
-    </div>
+    </section>
     <LineDivider />
     <div class="section">
       <div v-if="showSeries" class="section-series">
