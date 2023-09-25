@@ -72,14 +72,12 @@
         </div>
       </div>
     </div>
-    <ModalLoading v-show="showModal" />
   </div>
 </template>
 
 <script setup>
 import { ref, onBeforeMount } from "vue";
 import LineDivider from "@/components/LineDivider.vue";
-import ModalLoading from "@/components/modals/ModalLoading.vue";
 import ListSeries from "@/components/ListSeries.vue";
 import Pagination from "@/components/Pagination.vue";
 import { getSeriesData } from "@/services/series";

@@ -159,7 +159,7 @@ async function getUser(req, res) {
 }
 
 async function updateUser(req, res) {
-  const { name, lastName, country, city, nickname, email } = req.body;
+  const { nickname, email } = req.body;
   try {
     const userId = req.userId;
     const user = await User.findById(userId);
@@ -170,10 +170,25 @@ async function updateUser(req, res) {
         .json({ result: "errorUser", message: "Unauthorized updateUser" });
     }
 
-    user.name = name;
-    user.lastName = lastName;
-    user.country = country;
-    user.city = city;
+    // Validar si el nickname ya existe
+    const nicknameExists = await User.findOne({
+      nickname,
+      _id: { $ne: userId },
+    });
+    if (nicknameExists) {
+      return res
+        .status(400)
+        .json({ result: "errorNickname", message: "Nickname already exists" });
+    }
+
+    // Validar si el email ya existe
+    const emailExists = await User.findOne({ email, _id: { $ne: userId } });
+    if (emailExists) {
+      return res
+        .status(400)
+        .json({ result: "errorEmail", message: "Email already exists" });
+    }
+
     user.nickname = nickname;
     user.email = email;
 

@@ -52,7 +52,7 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/store/auth";
-import { login} from "@/services/auth.js"
+import { login } from "@/services/auth.js"
 
 const router = useRouter();
 const authStore = useAuthStore();

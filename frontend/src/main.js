@@ -2,7 +2,7 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import { createPinia } from "pinia";
 import router from "./router";
-import ToastPlugin from "vue-toast-notification";
+import Vue3Toastify from 'vue3-toastify';
 import { OhVueIcon, addIcons } from "oh-vue-icons";
 import {
   HiEyeOff,
@@ -58,12 +58,10 @@ const pinia = createPinia();
 
 app.use(pinia);
 app.use(router);
-app.use(ToastPlugin, {
-  position: "top",
-  duration: 3000,
-  dismissible: true,
-});
-
+app.use(Vue3Toastify, {
+  autoClose: 1000,
+  position: 'top-center',
+})
 app.component("v-icon", OhVueIcon);
 
 app.mount("#app");

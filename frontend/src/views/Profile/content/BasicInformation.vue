@@ -10,60 +10,89 @@
       />
     </div>
 
-    <h4>Change your profile photo, username, email and password</h4>
-    <!-- Formulario de edición de información -->
-    <form @submit.prevent="saveChanges">
-      <input
-        placeholder="Username"
-        type="text"
-        id="username"
-        v-model="userData.username"
-        required
-      />
+    <h4>Change your profile photo, username, email and password.</h4>
 
-      <input
-        placeholder="Email"
-        type="email"
-        id="email"
-        v-model="userData.email"
-        required
-      />
+    <!-- Acordeón -->
+    <details class="accordion-section">
+      <summary>Basic information</summary>
+      <form @submit.prevent="sendBasicInformation">
+        <div
+          style="
+            width: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+          "
+        >
+          <input
+            class="input-register-nick"
+            :style="borderNicknameColor"
+            placeholder="Nickname"
+            type="text"
+            v-model="userData.nickname"
+            required
+            @input="validateNickname"
+          />
+          <v-icon
+            class="icon-register-nick"
+            :name="nicknameValid.name"
+            scale="1"
+            :color="nicknameValid.color"
+          />
+        </div>
+        <input
+          placeholder="Email"
+          type="email"
+          v-model="userData.email"
+          required
+        />
+        <button type="submit" class="button-primary">Save Changes</button>
+      </form>
+    </details>
 
-      <input
-        placeholder="Current password"
-        type="password"
-        id="password"
-        v-model="userData.password"
-        required
-      />
-
-      <input
-        placeholder="New password"
-        type="password"
-        id="password"
-        v-model="userData.password"
-        required
-      />
-
-      <button type="submit" class="button-primary">Save Changes</button>
-    </form>
+    <details class="accordion-section">
+      <summary>Change password</summary>
+      <form @submit.prevent="savePasswordChanges">
+        <input
+          placeholder="Current password"
+          type="password"
+          v-model="userData.currentPassword"
+          required
+        />
+        <input
+          placeholder="New password"
+          type="password"
+          v-model="userData.newPassword"
+          required
+        />
+        <button type="submit" class="button-primary">Save Changes</button>
+      </form>
+    </details>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch, onUnmounted } from "vue";
+import { searchNickname } from "@/services/auth.js";
+
+const props = defineProps({
+  userInformation: Object,
+});
+
+const emit = defineEmits(["send-basic-information"]);
 
 // Datos del usuario (simulados)
 const userData = ref({});
+const borderNicknameColor = ref("");
 
-// Foto de perfil (simulada)
+const nicknameValid = { name: "si-superuser", color: "grey" };
+
 const profilePicture = ref("https://i.ibb.co/R6JfVWG/Fp-TSq7-Ga-YAAWho8.jpg");
 
-// Manejar el cambio de la foto de perfil
 const handleProfilePictureChange = (event) => {
   const file = event.target.files[0];
   if (file) {
-    // Simplemente actualiza la variable profilePicture con la URL de la nueva imagen
     const reader = new FileReader();
     reader.onload = (e) => {
       profilePicture.value = e.target.result;
@@ -72,11 +101,41 @@ const handleProfilePictureChange = (event) => {
   }
 };
 
-// Guardar los cambios en la información del usuario
-const saveChanges = () => {
-  // Aquí podrías enviar los datos del formulario al servidor o hacer cualquier otro tipo de manejo de datos necesario.
-  console.log("Datos del usuario actualizados:", userData.value);
+const sendBasicInformation = () => {
+  emit("send-basic-information", userData.value);
 };
+
+const validateNickname = async () => {
+  if (userData.value.nickname.length >= 6) {
+    const response = await searchNickname(userData.value.nickname);
+    if (response.value === true) {
+      nicknameValid.name = "bi-x-circle-fill";
+      nicknameValid.color = "red";
+      borderNicknameColor.value =
+        "border: 2px solid red; box-shadow: 0px 0px 3px red";
+    }
+    if (response.value === false) {
+      nicknameValid.name = "bi-check-circle-fill";
+      nicknameValid.color = "#afd85d";
+      borderNicknameColor.value =
+        "border: 2px solid #afd85d; box-shadow: 0px 0px 3px #afd85d";
+    }
+  } else {
+    nicknameValid.name = "si-superuser";
+    nicknameValid.color = "grey";
+    borderNicknameColor.value = "";
+  }
+};
+
+watch(
+  () => props.userInformation,
+  (newVal) => {
+    if (newVal) {
+      userData.value = newVal;
+    }
+  },
+  { immediate: true } // Esto asegura que el watcher se ejecute inmediatamente cuando el componente se monta
+);
 </script>
 
 <style scoped>
@@ -106,6 +165,22 @@ h2 {
   display: none;
 }
 
+.accordion-section {
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 1rem;
+}
+
+.accordion-section summary {
+  cursor: pointer;
+  font-weight: bold;
+  padding: 1rem;
+  background-color: #f9f9f9;
+}
+
+.accordion-section form {
+  padding: 1rem;
+}
+
 form {
   width: 50%;
 }
@@ -115,6 +190,9 @@ form button {
 }
 
 @media screen and (max-width: 800px) {
+  .basic-information {
+    padding: 5px;
+  }
   form {
     width: 100%;
   }

@@ -32,18 +32,54 @@
       </div>
     </section>
     <div class="profile-content-section">
-      <BasicInformation v-if="activeSection === 'Basic Information'" />
+      <BasicInformation
+        :userInformation="userBasicInformation"
+        @send-basic-information="onSubmitBasicInformation"
+        v-if="activeSection === 'Basic Information'"
+      />
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onBeforeMount } from "vue";
 import BasicInformation from "./content/BasicInformation.vue";
+import { getUser, updateUser } from "@/services/auth.js";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
+
+const userBasicInformation = ref();
+
+onBeforeMount(async () => {
+  await getUserData();
+});
+
 const activeSection = ref("Basic Information");
 
 const changeSection = (section) => {
   activeSection.value = section;
+};
+
+const getUserData = async () => {
+  try {
+    const response = await getUser();
+    userBasicInformation.value = response.user;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const onSubmitBasicInformation = async (userInformation) => {
+  try {
+    const res = await updateUser(userInformation);
+    await getUserData();
+
+    toast.success(res.message);
+  } catch (error) {
+    console.error(error);
+
+    toast.error(error.message);
+  }
 };
 </script>
 

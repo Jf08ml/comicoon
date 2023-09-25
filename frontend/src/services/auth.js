@@ -1,14 +1,15 @@
 import { apiAuth } from "./api.js";
 import { useAuthStore } from "../store/auth.js";
+import { useLoadingStore } from "@/store/loadingStore";
 import Cookies from "js-cookie";
 
 const useAuth = useAuthStore();
-
-// const BASE_URL = 'http://localhost:3000/api/auth';
-// const BASE_URL = 'http://192.168.101.10:3000/api/auth'
+const useLoading = useLoadingStore();
 
 export async function login(identifier, password) {
   try {
+    useLoading.show();
+
     const response = await apiAuth.post(
       `/login`,
       {
@@ -32,6 +33,8 @@ export async function login(identifier, password) {
     return response.data;
   } catch (error) {
     return await Promise.reject(error.response.data);
+  } finally {
+    useLoading.hide();
   }
 }
 
@@ -64,8 +67,11 @@ export async function signup(nickname, email, password) {
   }
 }
 
-export async function getUser(token) {
+export async function getUser() {
   try {
+    useLoading.show();
+
+    const token = useAuthStore().token;
     const response = await apiAuth.get(`/getuser`, {
       headers: {
         "Cache-Control": "no-cache",
@@ -75,6 +81,8 @@ export async function getUser(token) {
     return response.data;
   } catch (error) {
     return await Promise.reject(error.response.data);
+  } finally {
+    useLoading.hide();
   }
 }
 
@@ -94,6 +102,7 @@ export async function searchNickname(nickname) {
 
 export async function updateUser(userData, token) {
   try {
+    const token = useAuthStore().token;
     const response = await apiAuth.put(`/updateuser`, userData, {
       headers: {
         "Content-Type": "application/json",

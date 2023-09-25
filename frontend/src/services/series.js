@@ -1,10 +1,12 @@
 import { apiSeries } from "./api.js";
+import { useLoadingStore } from "@/store/loadingStore.js";
 
-// const BASE_URL = "http://localhost:3000/api/comic";
-// const BASE_URL = 'http://192.168.101.13:3000/api/comic'
+const useLoading = useLoadingStore();
 
 export async function seriePost(serie, token) {
   try {
+    useLoading.show(); 
+
     const response = await apiSeries.post(
       `/postserie`,
       {
@@ -20,11 +22,14 @@ export async function seriePost(serie, token) {
     return response.data;
   } catch (error) {
     return await Promise.reject(error.response.data);
+  } finally {
+    useLoading.hide();
   }
 }
 
 export async function getUserSeries(page, limit, token) {
   try {
+    useLoading.show();
     const response = await apiSeries.get(
       `/userseries?page=${page}&limit=${limit}`,
       {
@@ -37,11 +42,14 @@ export async function getUserSeries(page, limit, token) {
     return response.data;
   } catch (error) {
     return await Promise.reject(error.response.data);
+  } finally {
+    useLoading.hide();
   }
 }
 
 export async function getUserSerie(id, token) {
   try {
+    useLoading.show();
     const response = await apiSeries.get(`/userserie/${id}`, {
       headers: {
         "Cache-Control": "no-cache",
@@ -51,6 +59,8 @@ export async function getUserSerie(id, token) {
     return response.data;
   } catch (error) {
     return await Promise.reject(error.response.data);
+  } finally {
+    useLoading.hide();
   }
 }
 
@@ -96,6 +106,8 @@ export async function countViewsSerie(serieId, token) {
 
 export async function getSeriesData(type, queryType, page, limit) {
   try {
+    useLoading.show();
+
     const response = await apiSeries.get(
       `/seriesData/${type}/${queryType}?page=${page}&limit=${limit}`,
       {
@@ -107,11 +119,15 @@ export async function getSeriesData(type, queryType, page, limit) {
     return response.data;
   } catch (error) {
     return await Promise.reject(error.response.data);
+  } finally {
+    useLoading.hide();
   }
 }
 
 export async function getArtistSeries(artist, page, limit) {
   try {
+    useLoading.show();
+
     const response = await apiSeries.get(
       `/artistSeries/${artist}?page=${page}&limit=${limit}`,
       {
@@ -123,6 +139,8 @@ export async function getArtistSeries(artist, page, limit) {
     return response.data;
   } catch (error) {
     return await Promise.reject(error.response.data);
+  } finally {
+    useLoading.hide();
   }
 }
 
@@ -144,6 +162,8 @@ export async function searchSerie(nameSerie, page, limit) {
 
 export async function getSeriesToInscribe(page, limit, token) {
   try {
+    useLoading.show();
+
     const response = await apiSeries.get(
       `/seriestoinscribe?page=${page}&limit=${limit}`,
       {
@@ -156,11 +176,15 @@ export async function getSeriesToInscribe(page, limit, token) {
     return response.data;
   } catch (error) {
     return await Promise.reject(error.response.data);
+  } finally {
+    useLoading.hide();
   }
 }
 
 export async function enteredSeries(serie, token) {
   try {
+    useLoading.show();
+
     const response = await apiSeries.put(
       `/enteredseries/${serie}`,
       {},
@@ -174,5 +198,7 @@ export async function enteredSeries(serie, token) {
     return response.data;
   } catch (error) {
     return await Promise.reject(error.response.data);
+  } finally {
+    useLoading.hide();
   }
 }

@@ -27,6 +27,22 @@
     box-shadow: 0 2px 0 black;
 }
 
+.btn-blocked {
+    background-color: #7e7e7e;
+    color: rgb(252, 252, 252);
+    margin: 25px;
+    width: 60%;
+    height: 35px;
+    font-size: 16px;
+    box-shadow: 0 2px 0 black;
+    cursor: not-allowed;
+
+    &:hover {
+        background-color: #7e7e7e;
+        color: rgb(252, 252, 252);
+    }
+}
+
 .nav-button {
     @include button-styles;
     font-size: $font-size-title-page;

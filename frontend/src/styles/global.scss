@@ -43,10 +43,16 @@ body {
 h3 {
     color: white;
 }
-*, *::before, *::after {
+
+*,
+*::before,
+*::after {
     box-sizing: border-box;
-  }
-  
+}
+
+summary {
+    color: darken($primary-color, 10%);
+}
 
 // Estilos de input
 input,
