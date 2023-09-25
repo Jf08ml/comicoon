@@ -85,7 +85,7 @@ import Pagination from "@/components/Pagination.vue";
 import { getSeriesData } from "@/services/series";
 import router from "@/router";
 
-const activeBtn = ref("newer");
+const activeBtn = ref("artists");
 const type = ref("All");
 const currentPage = ref(1);
 const limit = ref(24);
