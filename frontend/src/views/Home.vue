@@ -2,38 +2,26 @@
   <div class="container-content">
     <section class="home-sections">
       <div>
-        <button
-          class="button-options"
-          :class="{ 'button-options-active': activeBtn === 'artists' }"
-          @click="handleButtonClick('artists')"
-        >
+        <button class="button-options" :class="{ 'button-options-active': activeBtn === 'artists' }"
+          @click="handleButtonClick('artists')">
           Featured artists
         </button>
       </div>
       <div>
-        <button
-          class="button-options"
-          :class="{ 'button-options-active': activeBtn === 'newer' }"
-          @click="handleButtonClick('newer')"
-        >
+        <button class="button-options" :class="{ 'button-options-active': activeBtn === 'newer' }"
+          @click="handleButtonClick('newer')">
           Most news
         </button>
       </div>
       <div>
-        <button
-          class="button-options"
-          :class="{ 'button-options-active': activeBtn === 'mostviews' }"
-          @click="handleButtonClick('mostviews')"
-        >
+        <button class="button-options" :class="{ 'button-options-active': activeBtn === 'mostviews' }"
+          @click="handleButtonClick('mostviews')">
           Most views
         </button>
       </div>
       <div>
-        <button
-          class="button-options"
-          :class="{ 'button-options-active': activeBtn === 'popular' }"
-          @click="handleButtonClick('popular')"
-        >
+        <button class="button-options" :class="{ 'button-options-active': activeBtn === 'popular' }"
+          @click="handleButtonClick('popular')">
           Popular series
         </button>
       </div>
@@ -41,35 +29,13 @@
     <LineDivider />
     <div class="section">
       <div v-if="showSeries" class="section-series">
-        <ListSeries
-          :series="series"
-          actionType="view"
-          @open-serie="openSerie"
-        />
-        <Pagination
-          :currentPage="currentPage"
-          :totalPages="totalPages"
-          @prev-page="updatePage(currentPage - 1)"
-          @jump-prev-page="updatePage(currentPage - 5)"
-          @selected-page="updatePage"
-          @next-page="updatePage(currentPage + 1)"
-          @jump-next-page="updatePage(currentPage + 5)"
-        />
+        <ListSeries :series="series" actionType="view" @open-serie="openSerie" />
+        <Pagination :currentPage="currentPage" :totalPages="totalPages" @prev-page="updatePage(currentPage - 1)"
+          @jump-prev-page="updatePage(currentPage - 5)" @selected-page="updatePage"
+          @next-page="updatePage(currentPage + 1)" @jump-next-page="updatePage(currentPage + 5)" />
       </div>
-
-      <div v-else class="section-artists">
-        <div class="container-list-artists">
-          <h3>These are the most popular artists</h3>
-          <div
-            v-for="(artist, index) in artists"
-            :key="index"
-            class="list-artists"
-          >
-            <button class="btn-artist">
-              {{ index + 1 }}. {{ artist.name }}
-            </button>
-          </div>
-        </div>
+      <div v-else>
+        <ArtistsSeriesList :params="artists" />
       </div>
     </div>
     <ModalLoading v-show="showModal" />
@@ -82,6 +48,7 @@ import LineDivider from "@/components/LineDivider.vue";
 import ModalLoading from "@/components/modals/ModalLoading.vue";
 import ListSeries from "@/components/ListSeries.vue";
 import Pagination from "@/components/Pagination.vue";
+import ArtistsSeriesList from "@/components/ArtistsSeriesList.vue";
 import { getSeriesData } from "@/services/series";
 import router from "@/router";
 
@@ -137,6 +104,7 @@ const updatePage = async (page) => {
 const openSerie = (serie) => {
   router.push(`/viewserie/${serie._id}`);
 };
+
 </script>
 
 <style></style>
