@@ -7,7 +7,7 @@
         :class="{ 'active-section': activeSection === 'Basic Information' }"
         @click="changeSection('Basic Information')"
       >
-        Basic Information
+        User Information
       </div>
       <div
         class="section"
@@ -32,9 +32,10 @@
       </div>
     </section>
     <div class="profile-content-section">
-      <BasicInformation
+      <UserInformation
         :userInformation="userBasicInformation"
-        @send-basic-information="onSubmitBasicInformation"
+        @on-submit-basic-information="onSubmitBasicInformation"
+        @update-password-user="updatePasswordUser"
         v-if="activeSection === 'Basic Information'"
       />
     </div>
@@ -43,8 +44,8 @@
 
 <script setup>
 import { ref, onBeforeMount } from "vue";
-import BasicInformation from "./content/BasicInformation.vue";
-import { getUser, updateUser } from "@/services/auth.js";
+import UserInformation from "./content/UserInformation.vue";
+import { getUser, updateUser, updatePassword } from "@/services/auth.js";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 
@@ -73,6 +74,18 @@ const onSubmitBasicInformation = async (userInformation) => {
   try {
     const res = await updateUser(userInformation);
     await getUserData();
+
+    toast.success(res.message);
+  } catch (error) {
+    console.log(error);
+
+    toast.error(error.message);
+  }
+};
+
+const updatePasswordUser = async (dataPassword) => {
+  try {
+    const res = await updatePassword(dataPassword);
 
     toast.success(res.message);
   } catch (error) {

@@ -15,7 +15,6 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from "vue";
 import CardDefault from "@/components/cards/CardsDefault.vue";
 
 const props = defineProps({

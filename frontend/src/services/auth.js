@@ -75,7 +75,7 @@ export async function getUser() {
     const response = await apiAuth.get(`/getuser`, {
       headers: {
         "Cache-Control": "no-cache",
-        Authorization: `${token}`,
+        Authorization: token,
       },
     });
     return response.data;
@@ -100,13 +100,13 @@ export async function searchNickname(nickname) {
   }
 }
 
-export async function updateUser(userData, token) {
+export async function updateUser(userData) {
   try {
     const token = useAuthStore().token;
     const response = await apiAuth.put(`/updateuser`, userData, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `${token}`,
+        Authorization: token,
       },
     });
     return response.data;
@@ -115,8 +115,9 @@ export async function updateUser(userData, token) {
   }
 }
 
-export async function updatePassword(passwords, token) {
+export async function updatePassword(passwords) {
   try {
+    const token = useAuthStore().token;
     const response = await apiAuth.put(`/updatepassword`, passwords, {
       headers: {
         "Content-Type": "application/json",

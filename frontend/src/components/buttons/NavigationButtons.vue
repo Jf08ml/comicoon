@@ -8,7 +8,7 @@
       «
     </button>
     <button class="btn-navigation" @click="emitOpenSerie">
-      <v-icon name="hi-information-circle" title="Info. Serie"/>
+      <v-icon name="hi-information-circle" title="Info. Serie" />
     </button>
     <button
       :class="showNext ? 'btn-navigation' : 'btn-navigation-blocked'"
@@ -21,19 +21,16 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from 'vue';
-
 defineProps({
   showBack: Boolean,
   showNext: Boolean,
 });
 
-const emit = defineEmits(['next-comic', 'back-comic', 'open-serie']);
+const emit = defineEmits(["next-comic", "back-comic", "open-serie"]);
 
-const emitNextComic = () => emit('next-comic');
-const emitBackComic = () => emit('back-comic');
-const emitOpenSerie = () => emit('open-serie');
-
+const emitNextComic = () => emit("next-comic");
+const emitBackComic = () => emit("back-comic");
+const emitOpenSerie = () => emit("open-serie");
 </script>
 
 <style scoped>

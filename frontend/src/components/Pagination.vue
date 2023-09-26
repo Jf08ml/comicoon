@@ -6,7 +6,12 @@
       :disabled="currentPage <= 5"
       :class="{ 'btn-navigation-blocked': currentPage <= 5 }"
     >
-    <v-icon name="md-skipprevious" title="Options" scale="1.2" color="white"/>
+      <v-icon
+        name="md-skipprevious"
+        title="Options"
+        scale="1.2"
+        color="white"
+      />
     </button>
     <button
       class="btn-navigation"
@@ -14,7 +19,12 @@
       :disabled="currentPage === 1"
       :class="{ 'btn-navigation-blocked': currentPage === 1 }"
     >
-    <v-icon name="md-navigatebefore" title="Options" scale="1.2" color="white"/>
+      <v-icon
+        name="md-navigatebefore"
+        title="Options"
+        scale="1.2"
+        color="white"
+      />
     </button>
     <div v-for="buttonPage in visiblePages" :key="buttonPage">
       <button
@@ -31,7 +41,12 @@
       :disabled="currentPage === totalPages"
       :class="{ 'btn-navigation-blocked': currentPage === totalPages }"
     >
-    <v-icon name="md-navigatenext" title="Options" scale="1.2" color="white"/>
+      <v-icon
+        name="md-navigatenext"
+        title="Options"
+        scale="1.2"
+        color="white"
+      />
     </button>
     <button
       class="btn-navigation"
@@ -39,13 +54,13 @@
       :disabled="currentPage >= totalPages - 4"
       :class="{ 'btn-navigation-blocked': currentPage >= totalPages - 4 }"
     >
-    <v-icon name="md-skipnext" title="Options" scale="1.2" color="white"/>
+      <v-icon name="md-skipnext" title="Options" scale="1.2" color="white" />
     </button>
   </div>
 </template>
 
 <script setup>
-import { defineProps, defineEmits, ref, computed } from "vue";
+import { computed } from "vue";
 
 const props = defineProps({
   currentPage: Number,
