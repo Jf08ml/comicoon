@@ -4,7 +4,7 @@
       <div class="container-list-artists">
         <h3>These are the most popular artists</h3>
         <div v-for="(artist, index) in artists" :key="index" class="list-artists">
-          <button class="btn-artist">{{ index + 1 }}. {{ artist.name }}</button>
+          <button class="btn-artist" @click="emit('get-artists-series')">{{ index + 1 }}. {{ artist.name }}</button>
         </div>
       </div>
     </div>
@@ -18,10 +18,11 @@ const props = defineProps({
   params: Object
 })
 
+const emit = defineEmits(["get-artists-series"]);
+
 const artists = ref({});
 
-onMounted(()=>{
-  console.log(props.params)
+onMounted(() => {
   artists.value = props.params
 })
 
