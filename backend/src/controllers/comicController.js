@@ -46,15 +46,6 @@ async function getUserComic(req, res) {
   }
 }
 
-async function getAzarComics(req, res) {
-  try {
-    const response = await Comic.aggregate([{ $sample: { size: 6 } }]);
-    return res.status(200).json(response);
-  } catch (error) {
-    return res.status(500).json({ result: "error", message: error });
-  }
-}
-
 async function putComic(req, res) {
   const { serie, _id, imagesPost } = req.body.comicLoaded;
   try {
@@ -164,7 +155,6 @@ export {
   postComic,
   getUserComics,
   getUserComic,
-  getAzarComics,
   putComic,
   postRateComic,
   assignScoreComic,

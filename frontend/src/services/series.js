@@ -5,7 +5,7 @@ const useLoading = useLoadingStore();
 
 export async function seriePost(serie, token) {
   try {
-    useLoading.show(); 
+    useLoading.show();
 
     const response = await apiSeries.post(
       `/postserie`,
@@ -98,6 +98,19 @@ export async function countViewsSerie(serieId, token) {
         },
       }
     );
+    return response.data;
+  } catch (error) {
+    return await Promise.reject(error.response.data);
+  }
+}
+
+export async function getAzarSeries() {
+  try {
+    const response = await apiSeries.get(`/azarseries`, {
+      headers: {
+        "Cache-Control": "no-cache",
+      },
+    });
     return response.data;
   } catch (error) {
     return await Promise.reject(error.response.data);

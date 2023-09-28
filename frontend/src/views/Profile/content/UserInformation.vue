@@ -1,14 +1,15 @@
 <template>
   <div class="basic-information">
-    <!-- Foto de perfil -->
     <div class="profile-picture">
-      <img :src="profilePicture" alt="Profile Picture" />
+      <img
+        :src="profilePicture ? profilePicture : notProfilePicture"
+        alt="Profile Picture"
+      />
       <input type="file" accept="image/*" />
     </div>
 
     <h4>Change your profile photo, username, email and password.</h4>
 
-    <!-- Acordeón -->
     <details class="accordion-section">
       <summary>Basic information</summary>
       <BasicInformation
@@ -26,7 +27,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from "vue";
+import { ref, watch } from "vue";
 import BasicInformation from "../forms/BasicInformation.vue";
 import ChangePassword from "../forms/ChangePassword.vue";
 
@@ -40,13 +41,9 @@ const emit = defineEmits([
 ]);
 
 const profilePicture = ref("");
+const notProfilePicture = ref("/no-profile-photo.jpg");
 const userData = ref({});
 const originalNickname = ref("");
-
-onMounted(() => {
-  originalNickname.value = userData.value.nickname;
-  profilePicture.value = userData.value.userUrlPhoto;
-});
 
 const sendBasicInformation = (dataUser) => {
   emit("on-submit-basic-information", dataUser);
@@ -61,6 +58,8 @@ watch(
   (newVal) => {
     if (newVal) {
       userData.value = newVal;
+      originalNickname.value = userData.value.nickname;
+      profilePicture.value = userData.value.userUrlPhoto;
     }
   },
   { immediate: true }

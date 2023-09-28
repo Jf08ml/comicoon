@@ -134,6 +134,15 @@ async function countViewsSerie(req, res) {
   }
 }
 
+async function getAzarSeries(req, res) {
+  try {
+    const response = await Serie.aggregate([{ $sample: { size: 6 } }]);
+    return res.status(200).json(response);
+  } catch (error) {
+    return res.status(500).json({ result: "error", message: error });
+  }
+}
+
 async function getSeriesData(req, res) {
   const { type, queryType } = req.params; // queryType puede ser 'mostviews', 'newer', 'popular', 'artists'
   const validTypes = ["Animated", "Real", "All"];
@@ -332,6 +341,7 @@ export {
   getUserSerie,
   assignScoreSerie,
   countViewsSerie,
+  getAzarSeries,
   getSeriesData,
   getArtistSeries,
   searchSerie,

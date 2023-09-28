@@ -51,11 +51,9 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { useAuthStore } from "@/store/auth";
-import { login } from "@/services/auth.js"
+import { login, getUser } from "@/services/auth.js";
 
 const router = useRouter();
-const authStore = useAuthStore();
 
 const identifier = ref("chikimalvin@gmail.com");
 const password = ref("Diana.123");
@@ -64,6 +62,7 @@ const showMsgError = ref("");
 const onSubmit = async () => {
   try {
     await login(identifier.value, password.value);
+    await getUser();
     router.push("/");
   } catch (error) {
     if (error.result === "errorPassword") {
@@ -76,6 +75,4 @@ const onSubmit = async () => {
 };
 </script>
 
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>

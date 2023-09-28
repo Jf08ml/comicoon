@@ -11,8 +11,9 @@ const createAxiosInstance = (baseURL) => {
     (response) => response,
     async (error) => {
       if (
-        error.response.status === 401 &&
-        error.response.data.result === "TokenExpiredError"
+        (error.response.status === 401 &&
+          error.response.data.result === "TokenExpiredError") ||
+        error.response.data.message === "Invalid token."
       ) {
         try {
           const response = await refreshToken();

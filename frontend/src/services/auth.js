@@ -60,7 +60,6 @@ export async function signup(nickname, email, password) {
     Cookies.set("refreshToken", useAuth.refreshTokenUser, {
       sameSite: "strict",
     });
-
     return response.data;
   } catch (error) {
     return await Promise.reject(error.response.data);
@@ -78,6 +77,7 @@ export async function getUser() {
         Authorization: token,
       },
     });
+    useAuth.userImgProfile = response.data.user.userUrlPhoto;
     return response.data;
   } catch (error) {
     return await Promise.reject(error.response.data);

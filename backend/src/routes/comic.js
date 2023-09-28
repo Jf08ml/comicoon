@@ -5,7 +5,6 @@ import {
   getUserComics,
   getUserComic,
   putComic,
-  getAzarComics,
   postRateComic,
   assignScoreComic,
   countViewsComic,
@@ -16,7 +15,6 @@ router.post("/postcomic", verifyToken, postComic);
 router.get("/usercomics", verifyToken, getUserComics);
 router.get("/usercomic/:id", getUserComic);
 router.put("/putcomic", verifyToken, putComic);
-router.get("/azarcomics", getAzarComics);
 router.post("/rateComic", verifyToken, postRateComic);
 router.put("/assignScore", assignScoreComic);
 router.put("/sumView", countViewsComic);

@@ -1,17 +1,14 @@
 <template>
   <div class="card">
-    <img :src="props.image" alt="Card image" class="card-img-top" />
+    <img :src="image" alt="Card image" class="card-img-top" />
     <div class="content-text">
-      <h4>{{ props.title }}</h4>
+      <h4>{{ title }}</h4>
     </div>
   </div>
 </template>
 
 <script setup>
-const props = defineProps({
-  image: String,
-  title: String,
-});
+const { image, title } = defineProps(["image", "title"]);
 </script>
 
 <style scoped>

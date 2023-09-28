@@ -31,7 +31,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { searchNickname } from "@/services/auth.js";
 
 const props = defineProps({
@@ -39,7 +39,7 @@ const props = defineProps({
   originalNickname: String,
 });
 
-const formData = ref(props.userData);
+const formData = ref({});
 
 const emit = defineEmits(["send-basic-information"]);
 
@@ -74,6 +74,16 @@ const validateNickname = async () => {
     borderNicknameColor.value = "";
   }
 };
+
+watch(
+  () => props.userData,
+  (newVal) => {
+    if (newVal) {
+      formData.value = newVal;
+    }
+  },
+  { immediate: true }
+);
 </script>
 
 <style>

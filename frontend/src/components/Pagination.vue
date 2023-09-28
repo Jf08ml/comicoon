@@ -1,66 +1,33 @@
 <template>
   <div class="buttons-navigation">
-    <button
-      class="btn-navigation"
-      @click="emitJumpPrevPage"
-      :disabled="currentPage <= 5"
-      :class="{ 'btn-navigation-blocked': currentPage <= 5 }"
-    >
-      <v-icon
-        name="md-skipprevious"
-        title="Options"
-        scale="1.2"
-        color="white"
-      />
-    </button>
-    <button
-      class="btn-navigation"
-      @click="emitPrevPage"
-      :disabled="currentPage === 1"
-      :class="{ 'btn-navigation-blocked': currentPage === 1 }"
-    >
-      <v-icon
-        name="md-navigatebefore"
-        title="Options"
-        scale="1.2"
-        color="white"
-      />
-    </button>
-    <div v-for="buttonPage in visiblePages" :key="buttonPage">
-      <button
-        class="buttons-page"
-        @click="emitSelectedPage(buttonPage)"
-        :class="{ 'buttons-page-active': buttonPage === currentPage }"
-      >
-        {{ buttonPage }}
-      </button>
+    <div style="display: flex; width: 100%; justify-content: center">
+      <div v-for="buttonPage in visiblePages" :key="buttonPage">
+        <button
+          class="buttons-page"
+          @click="emitSelectedPage(buttonPage)"
+          :class="{ 'buttons-page-active': buttonPage === currentPage }"
+        >
+          {{ buttonPage }}
+        </button>
+      </div>
     </div>
-    <button
-      class="btn-navigation"
-      @click="emitNextPage"
-      :disabled="currentPage === totalPages"
-      :class="{ 'btn-navigation-blocked': currentPage === totalPages }"
-    >
-      <v-icon
-        name="md-navigatenext"
-        title="Options"
-        scale="1.2"
-        color="white"
+    <div style="display: flex; width: 100%; justify-content: center">
+      <NavigationButton
+        v-for="button in navigationButtons"
+        :key="button.type"
+        :type="button.type"
+        :disabled="button.disabled"
+        :title="button.title"
+        :icon="button.icon"
+        @click="button.action"
       />
-    </button>
-    <button
-      class="btn-navigation"
-      @click="emitJumpNextPage"
-      :disabled="currentPage >= totalPages - 4"
-      :class="{ 'btn-navigation-blocked': currentPage >= totalPages - 4 }"
-    >
-      <v-icon name="md-skipnext" title="Options" scale="1.2" color="white" />
-    </button>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { computed } from "vue";
+import NavigationButton from "./buttons/NavigationButton.vue"; // Asegúrate de usar la ruta correcta al componente
 
 const props = defineProps({
   currentPage: Number,
@@ -77,6 +44,7 @@ const emit = defineEmits([
 
 const visiblePageCount = 5;
 
+// Definición de las páginas visibles
 const visiblePages = computed(() => {
   const startPage = Math.max(
     1,
@@ -89,6 +57,39 @@ const visiblePages = computed(() => {
   );
 });
 
+// Definición de los botones de navegación
+const navigationButtons = computed(() => [
+  {
+    type: "jump-prev-page",
+    disabled: props.currentPage <= 5,
+    title: "Jump to Previous Page",
+    icon: "md-skipprevious",
+    action: emitJumpPrevPage,
+  },
+  {
+    type: "prev-page",
+    disabled: props.currentPage === 1,
+    title: "Previous Page",
+    icon: "md-navigatebefore",
+    action: emitPrevPage,
+  },
+  {
+    type: "next-page",
+    disabled: props.currentPage === props.totalPages,
+    title: "Next Page",
+    icon: "md-navigatenext",
+    action: emitNextPage,
+  },
+  {
+    type: "jump-next-page",
+    disabled: props.currentPage >= props.totalPages - 4,
+    title: "Jump to Next Page",
+    icon: "md-skipnext",
+    action: emitJumpNextPage,
+  },
+]);
+
+// Métodos de emisión para los eventos de navegación
 const emitNextPage = () => emit("next-page");
 const emitJumpNextPage = () =>
   emit("jump-next-page", Math.min(props.currentPage + 5, props.totalPages));
@@ -104,6 +105,7 @@ const emitJumpPrevPage = () =>
   width: 80%;
   margin: 30px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
@@ -111,39 +113,21 @@ const emitJumpPrevPage = () =>
 .buttons-page {
   background-color: transparent;
   color: white;
-  border: 1px solid grey;
+  border: none;
+  border-bottom: 1px solid grey;
   margin: 2px;
-  font-size: 20px;
-  border-radius: 50%;
+  font-size: 15px;
   padding-inline: 10px;
   cursor: pointer;
 }
 
 .buttons-page-active {
-  background-color: #da2644;
+  background-color: transparent;
   color: white;
-  border: 1px solid #da2644;
+  border: none;
+  border-bottom: 3px solid #da2644;
   margin: 2px;
-  border-radius: 50%;
   padding-inline: 10px;
-  cursor: pointer;
-}
-
-.btn-navigation {
-  background-color: #da2644;
-  color: white;
-  border: none;
-  margin: 2px;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-.btn-navigation-blocked {
-  background-color: #7e7e7e;
-  color: rgb(252, 252, 252);
-  border: none;
-  margin: 2px;
-  border-radius: 50%;
   cursor: pointer;
 }
 </style>

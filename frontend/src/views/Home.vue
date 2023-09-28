@@ -98,6 +98,7 @@ onBeforeMount(async () => {
 });
 
 const handleButtonClick = (btnType) => {
+  currentPage.value = 1;
   activeBtn.value = btnType;
   getSeries();
 };

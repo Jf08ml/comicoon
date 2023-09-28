@@ -6,6 +6,7 @@ import {
   getUserSerie,
   assignScoreSerie,
   countViewsSerie,
+  getAzarSeries,
   getSeriesData,
   getArtistSeries,
   searchSerie,
@@ -19,6 +20,7 @@ router.get("/userserie/:id", getUserSerie);
 router.post("/postserie", verifyToken, postSerie);
 router.put("/assignScoreSerie", assignScoreSerie);
 router.put("/sumViewSerie", countViewsSerie);
+router.get("/azarseries", getAzarSeries);
 router.get("/seriesData/:type/:queryType", getSeriesData)
 router.get("/artistSeries/:artist", getArtistSeries);
 router.get("/searchSeries/:nameSerie", searchSerie);

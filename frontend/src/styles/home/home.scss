@@ -11,13 +11,12 @@
 .home-sections {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
     height: 4rem;
     width: 80%;
     gap: 2px;
 
     @media screen and (max-width:800px) {
-        font-size: calc(#{$font-size} - 3px);
         transition: all 0.2s ease-in-out;
         width: 100%;
     }
@@ -32,7 +31,7 @@
 .button-options {
     background-color: transparent;
     border: none;
-    border-radius: 10px; // Moved this here as it's common for hover and active states
+    border-radius: 10px;
     color: aliceblue;
     padding-block: 10px;
     padding-inline: 30px;
@@ -47,7 +46,7 @@
     }
 
     @media screen and (max-width:500px) {
-        font-size: calc(#{$font-size} - 3px);
+        font-size: calc(#{$font-size} - 5px);
         transition: all 0.2s ease-in-out;
     }
 }

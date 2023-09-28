@@ -23,17 +23,18 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["open-serie", "selected-serie"]);
-const emitOpenSerie = (id) => emit("open-serie", id);
-const emitSelectedSerie = (id) => emit("selected-serie", id);
+
+const actionsMap = {
+  view: (serie) => emit("open-serie", serie),
+  select: () => emit("selected-serie"),
+};
 
 const actionCard = (serie) => {
-  if (props.actionType === "view") {
-    emitOpenSerie(serie);
-  } else if (props.actionType === "select") {
-    emitSelectedSerie(serie);
-  }
+  const action = actionsMap[props.actionType];
+  if (action) action(serie);
 };
 </script>
+
 
 <style scoped>
 .content-list-series {
@@ -56,27 +57,24 @@ const actionCard = (serie) => {
   margin: auto;
 }
 
-/* Pantallas grandes (escritorio) */
 @media (min-width: 1200px) {
   .serie-item {
-    width: calc(100% / 7); /* 7 tarjetas por fila */
-    height: auto; /* Ajusta según tus necesidades */
+    width: calc(100% / 7);
+    height: auto;
   }
 }
 
-/* Pantallas medianas (tabletas) */
 @media (min-width: 768px) and (max-width: 1199px) {
   .serie-item {
-    width: calc(100% / 4); /* 4 tarjetas por fila */
-    height: auto; /* Ajusta según tus necesidades */
+    width: calc(100% / 4);
+    height: auto;
   }
 }
 
-/* Pantallas pequeñas (móviles) */
 @media (max-width: 767px) {
   .serie-item {
-    width: calc(100% / 2.3); /* 2 tarjetas por fila */
-    height: auto; /* Ajusta según tus necesidades */
+    width: calc(100% / 2.3);
+    height: auto;
   }
 }
 </style>

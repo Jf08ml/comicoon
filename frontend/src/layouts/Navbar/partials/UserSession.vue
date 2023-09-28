@@ -8,7 +8,6 @@
               name="pr-upload"
               scale="1.2"
               title="Upload serie or comic"
-              :color="colorIcone"
             />
           </button>
         </template>
@@ -46,7 +45,7 @@ import { useAuthStore } from "@/store/auth";
 
 const authStore = useAuthStore();
 
-const userUrlPhoto = computed(() => authStore.$state.userImgProfile);
+const userUrlPhoto = computed(() => authStore.userImgProfile);
 const colorIcone = computed(() =>
   userUrlPhoto.value ? "transparent" : "white"
 );
