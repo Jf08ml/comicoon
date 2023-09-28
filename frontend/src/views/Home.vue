@@ -57,7 +57,10 @@
         />
       </div>
       <div v-else>
-        <ArtistsSeriesList :params="artists" @get-artists-series="getArtistsSeries"/>
+        <ArtistsSeriesList
+          :params="artists"
+          @get-artists-series="getArtistsFilter"
+        />
       </div>
     </div>
     <ModalLoading v-show="showModal" />
@@ -71,7 +74,7 @@ import ModalLoading from "@/components/modals/ModalLoading.vue";
 import ListSeries from "@/components/ListSeries.vue";
 import Pagination from "@/components/Pagination.vue";
 import ArtistsSeriesList from "@/components/ArtistsSeriesList.vue";
-import { getSeriesData } from "@/services/series";
+import { getSeriesData, getArtistSeries } from "@/services/series";
 import router from "@/router";
 
 const activeBtn = ref("newer");
@@ -82,7 +85,7 @@ const totalPages = ref(0);
 const series = ref({});
 const showSeries = ref(false);
 const showModal = ref(false);
-const artists = ref({});
+const artists = ref({}); 
 
 onBeforeMount(async () => {
   await getSeries();
@@ -127,8 +130,10 @@ const openSerie = (serie) => {
   router.push(`/viewserie/${serie._id}`);
 };
 
-const getArtistsSeries = () => {
-  console.log("Obtener")
+const getArtistsFilter = async (artist) => {
+  const response = await getArtistSeries(artist);
+  series.value = response.series;
+  showSeries.value = true;
 }
 </script>
 

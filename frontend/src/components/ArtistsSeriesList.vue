@@ -1,14 +1,12 @@
 <template>
-  <div>
     <div class="section-artists">
       <div class="container-list-artists">
         <h3>These are the most popular artists</h3>
         <div v-for="(artist, index) in artists" :key="index" class="list-artists">
-          <button class="btn-artist" @click="emit('get-artists-series')">{{ index + 1 }}. {{ artist.name }}</button>
+          <button class="btn-artist" @click="emit('get-artists-series', artist.name)">{{ index + 1 }}. {{ artist.name }}</button>
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script setup>
