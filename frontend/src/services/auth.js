@@ -1,14 +1,15 @@
 import { apiAuth } from "./api.js";
 import { useAuthStore } from "../store/auth.js";
+import { useLoadingStore } from "@/store/loadingStore";
 import Cookies from "js-cookie";
 
 const useAuth = useAuthStore();
-
-// const BASE_URL = 'http://localhost:3000/api/auth';
-// const BASE_URL = 'http://192.168.101.10:3000/api/auth'
+const useLoading = useLoadingStore();
 
 export async function login(identifier, password) {
   try {
+    useLoading.show();
+
     const response = await apiAuth.post(
       `/login`,
       {
@@ -32,6 +33,8 @@ export async function login(identifier, password) {
     return response.data;
   } catch (error) {
     return await Promise.reject(error.response.data);
+  } finally {
+    useLoading.hide();
   }
 }
 
@@ -57,24 +60,29 @@ export async function signup(nickname, email, password) {
     Cookies.set("refreshToken", useAuth.refreshTokenUser, {
       sameSite: "strict",
     });
-
     return response.data;
   } catch (error) {
     return await Promise.reject(error.response.data);
   }
 }
 
-export async function getUser(token) {
+export async function getUser() {
   try {
+    useLoading.show();
+
+    const token = useAuthStore().token;
     const response = await apiAuth.get(`/getuser`, {
       headers: {
         "Cache-Control": "no-cache",
-        Authorization: `${token}`,
+        Authorization: token,
       },
     });
+    useAuth.userImgProfile = response.data.user.userUrlPhoto;
     return response.data;
   } catch (error) {
     return await Promise.reject(error.response.data);
+  } finally {
+    useLoading.hide();
   }
 }
 
@@ -92,12 +100,13 @@ export async function searchNickname(nickname) {
   }
 }
 
-export async function updateUser(userData, token) {
+export async function updateUser(userData) {
   try {
+    const token = useAuthStore().token;
     const response = await apiAuth.put(`/updateuser`, userData, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `${token}`,
+        Authorization: token,
       },
     });
     return response.data;
@@ -106,8 +115,9 @@ export async function updateUser(userData, token) {
   }
 }
 
-export async function updatePassword(passwords, token) {
+export async function updatePassword(passwords) {
   try {
+    const token = useAuthStore().token;
     const response = await apiAuth.put(`/updatepassword`, passwords, {
       headers: {
         "Content-Type": "application/json",

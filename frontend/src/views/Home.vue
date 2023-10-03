@@ -63,14 +63,12 @@
         />
       </div>
     </div>
-    <ModalLoading v-show="showModal" />
   </div>
 </template>
 
 <script setup>
 import { ref, onBeforeMount } from "vue";
 import LineDivider from "@/components/LineDivider.vue";
-import ModalLoading from "@/components/modals/ModalLoading.vue";
 import ListSeries from "@/components/ListSeries.vue";
 import Pagination from "@/components/Pagination.vue";
 import ArtistsSeriesList from "@/components/ArtistsSeriesList.vue";
@@ -92,6 +90,7 @@ onBeforeMount(async () => {
 });
 
 const handleButtonClick = (btnType) => {
+  currentPage.value = 1;
   activeBtn.value = btnType;
   getSeries();
 };

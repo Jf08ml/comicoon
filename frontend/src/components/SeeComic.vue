@@ -1,120 +1,185 @@
 <template>
   <div align="center">
-    <div class="floating-button">
-      <button @click="showOptions = !showOptions" class="nav-button-icone">
-        <v-icon name="co-options" title="Options" scale="1.2" />
-      </button>
-      <div v-if="showOptions" class="options-menu">
-        <button>Calificar</button>
-        <button>Añadir a Favoritos</button>
-        <button>Comentar</button>
-      </div>
+    <div>
+      <FloatingButton />
     </div>
     <div style="display: flex; align-items: center; justify-content: center">
       <h1>{{ comic.title }}</h1>
     </div>
     <LineDivider />
+    <NavigationButtons
+      :showBack="showBack"
+      :showNext="showNext"
+      @next-comic="nextComic"
+      @back-comic="backComic"
+      @open-serie="openSerieInfo"
+    />
     <div
       class="content-images"
       v-for="(image, index) in comic.imagesPost"
       :key="index"
     >
-      <div>
-        <img class="img-styles" :src="image" />
-      </div>
+      <div class="loader" v-show="!imagesLoaded[index]"></div>
+      <img class="img-styles" :src="image" @load="imagesLoaded[index] = true" />
     </div>
+
+    <NavigationButtons
+      :showBack="showBack"
+      :showNext="showNext"
+      @next-comic="nextComic"
+      @back-comic="backComic"
+      @open-serie="openSerieInfo"
+    />
     <LineDivider />
+    <div style="padding: 40px">
+      <h3>Other Series</h3>
+      <ListSeries
+        :series="azarComics"
+        actionType="view"
+        @open-serie="openSerie"
+      />
+    </div>
   </div>
 </template>
 
 <script setup>
-import { onBeforeMount, ref, watch } from "vue";
+import { onBeforeMount, ref, watch, nextTick } from "vue";
 import { useRoute } from "vue-router";
+import router from "@/router";
 import { getUserComic } from "@/services/comics";
-import { getUserSerie } from "@/services/series";
+import { getUserSerie, getAzarSeries } from "@/services/series";
 import LineDivider from "@/components/LineDivider.vue";
+import FloatingButton from "@/components/buttons/FloatingButton.vue";
+import ListSeries from "@/components/ListSeries.vue";
+import NavigationButtons from "./buttons/NavigationButtons.vue";
+
 const route = useRoute();
 
 const comic = ref({});
 const serie = ref({});
-const idComic = route.params;
-const page = ref();
-
-const showOptions = ref(false);
+const idComic = ref(route.params.id);
+const azarComics = ref({});
+const page = ref(null);
+const showBack = ref(false);
+const showNext = ref(false);
+const imagesLoaded = ref();
 
 onBeforeMount(async () => {
+  await currentComic();
+  await comicSerie();
+  await comicList();
+  pagination();
+});
+
+const currentComic = async () => {
   try {
-    const response = await getUserComic(idComic.id);
+    const response = await getUserComic(idComic.value);
     comic.value = response;
+    if (comic.value.imagesPost) {
+      imagesLoaded.value = comic.value.imagesPost.map(() => false);
+    } else {
+      imagesLoaded.value = [];
+    }
   } catch (error) {
     console.error(error);
   }
+};
+
+const comicSerie = async () => {
   try {
     const response = await getUserSerie(comic.value.serie);
     serie.value = response;
+    page.value = serie.value.partsSerie.indexOf(comic.value._id);
   } catch (error) {
     console.error(error);
   }
-});
+};
+
+const comicList = async () => {
+  try {
+    const response = await getAzarSeries();
+    azarComics.value = response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const pagination = () => {
+  const countPages = serie.value.partsSerie.length;
+  if (page.value != 0) {
+    showBack.value = true;
+  } else {
+    showBack.value = false;
+  }
+  if (page.value === countPages - 1) {
+    showNext.value = false;
+  } else {
+    showNext.value = true;
+  }
+};
+
+const nextComic = async () => {
+  let pageNext = page.value + 1;
+  let comicIdNext = serie.value.partsSerie[pageNext];
+
+  router.push(`/viewcomic/${comicIdNext}`);
+  await nextTick();
+  pagination();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
+
+const backComic = async () => {
+  let pageNext = page.value - 1;
+  let comicIdNext = serie.value.partsSerie[pageNext];
+  router.push(`/viewcomic/${comicIdNext}`);
+  await nextTick();
+  pagination();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
+
+const openSerieInfo = () => {
+  let serie = comic.value.serie;
+
+  router.push(`/viewserie/${serie}`);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
+
+const openSerie = (serie) => {
+  router.push(`/viewserie/${serie._id}`);
+};
 
 watch(
   () => route.params.id,
   async (newIdComic) => {
     idComic.value = newIdComic;
-    try {
-      const response = await getUserComic(idComic.value);
-      comic.value = response;
-    } catch (error) {
-      console.error(error);
-    }
-
-    try {
-      const response = await getUserSerie(comic.value.serie);
-      serie.value = response;
-      page.value = serie.value.partsSerie.indexOf(comic.value._id);
-    } catch (error) {
-      console.error(error);
-    }
+    await currentComic();
+    await comicSerie();
+    await comicList();
+    pagination();
   }
 );
 </script>
 
 <style lang="scss">
-.floating-button {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: #da2644;
-  color: #fff;
-  border: none;
+.loader {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #3498db;
   border-radius: 50%;
-  padding: 16px;
-  cursor: pointer;
-  z-index: 1000;
-  box-shadow: 0 0 5px black;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
 
-  .options-menu {
-    position: absolute;
-    bottom: 0px;
-    right: 70px;
-    width: 150px;
-    background-color: #fff;
-    box-shadow: 0px 0px 10px black;
-    border-radius: 5px;
+.is-hidden {
+  display: none;
+}
 
-    button {
-      display: block;
-      background: none;
-      border: none;
-      padding: 10px;
-      width: 100%;
-      text-align: left;
-      cursor: pointer;
-      &:hover {
-        background-color: #f0f0f0;
-        border-radius: 5px;
-      }
-    }
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 </style>

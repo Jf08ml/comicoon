@@ -48,19 +48,6 @@ export async function getUserComic(id, token) {
   }
 }
 
-export async function getAzarComics() {
-  try {
-    const response = await apiComics.get(`/azarcomics`, {
-      headers: {
-        "Cache-Control": "no-cache",
-      },
-    });
-    return response.data;
-  } catch (error) {
-    return await Promise.reject(error.response.data);
-  }
-}
-
 export async function putComic(comicLoaded, token) {
   try {
     const response = await apiComics.put(

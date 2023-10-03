@@ -1,19 +1,19 @@
 <template>
   <div>
     <button
-      :class="showBack ? 'btn-navigation' : 'btn-navigation-blocked'"
+      :class="getButtonClass(showBack)"
       :disabled="!showBack"
-      @click="emitBackComic"
+      @click="showBack && emit('back-comic')"
     >
       «
     </button>
-    <button class="btn-navigation" @click="emitOpenSerie">
-      <v-icon name="hi-information-circle" title="Info. Serie"/>
+    <button class="btn-navigation" @click="emit('open-serie')">
+      <v-icon name="hi-information-circle" title="Info. Serie" />
     </button>
     <button
-      :class="showNext ? 'btn-navigation' : 'btn-navigation-blocked'"
+      :class="getButtonClass(showNext)"
       :disabled="!showNext"
-      @click="emitNextComic"
+      @click="showNext && emit('next-comic')"
     >
       »
     </button>
@@ -21,26 +21,16 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from 'vue';
+const { showBack, showNext } = defineProps(["showBack", "showNext"]);
+const emit = defineEmits();
 
-defineProps({
-  showBack: Boolean,
-  showNext: Boolean,
-});
-
-const emit = defineEmits(['next-comic', 'back-comic', 'open-serie']);
-
-const emitNextComic = () => emit('next-comic');
-const emitBackComic = () => emit('back-comic');
-const emitOpenSerie = () => emit('open-serie');
-
+const getButtonClass = (show) =>
+  show ? "btn-navigation" : "btn-navigation-blocked";
 </script>
 
-<style scoped>
-
-.btn-navigation {
-  background-color: #b81f59;
-  color: white;
+<style scoped lang="scss">
+  
+%btn-navigation-base {
   border: none;
   margin: 2px;
   font-size: 20px;
@@ -50,27 +40,25 @@ const emitOpenSerie = () => emit('open-serie');
   height: 10%;
 }
 
-.btn-navigation:hover {
-  box-shadow: 0 0 5px#ffffff;
+.btn-navigation {
+  @extend %btn-navigation-base;
+  background-color: #b81f59;
+  color: white;
 }
 
 .btn-navigation-blocked {
+  @extend %btn-navigation-base;
   background-color: #7e7e7e;
   color: rgb(252, 252, 252);
-  border: none;
-  margin: 2px;
-  font-size: 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  width: 5%;
-  height: 10%;
+}
+
+.btn-navigation:hover,
+.btn-navigation-blocked:hover {
+  box-shadow: 0 0 5px #ffffff;
 }
 
 @media screen and (max-width: 700px) {
-  .btn-navigation {
-    width: 10%;
-  }
-
+  .btn-navigation,
   .btn-navigation-blocked {
     width: 10%;
   }

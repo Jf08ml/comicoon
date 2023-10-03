@@ -1,5 +1,5 @@
 @import '../partials/variables.scss';
-/*
+
 .section {
     width: 90%;
     display: flex;
@@ -11,13 +11,12 @@
 .home-sections {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    height: 5rem;
+    justify-content: space-around;
+    height: 4rem;
     width: 80%;
     gap: 2px;
 
     @media screen and (max-width:800px) {
-        font-size: calc(#{$font-size} - 3px);
         transition: all 0.2s ease-in-out;
         width: 100%;
     }
@@ -47,7 +46,7 @@
     }
 
     @media screen and (max-width:500px) {
-        font-size: calc(#{$font-size} - 3px);
+        font-size: calc(#{$font-size} - 5px);
         transition: all 0.2s ease-in-out;
     }
 }
@@ -115,4 +114,3 @@
         color: white;
     }
 }
-*/

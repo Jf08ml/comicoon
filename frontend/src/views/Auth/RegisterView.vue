@@ -80,7 +80,7 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { signup, searchNickname } from "@/services/auth.js";
+import { signup, searchNickname, getUser } from "@/services/auth.js";
 
 const router = useRouter();
 
@@ -187,6 +187,7 @@ const onSubmit = async () => {
   formMsgError.value = "";
   try {
     await signup(nickname.value, email.value, password.value);
+    await getUser();
     router.push("/");
   } catch (error) {
     if (error.result === "errorEmail") {
