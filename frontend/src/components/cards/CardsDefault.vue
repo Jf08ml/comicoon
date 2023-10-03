@@ -16,6 +16,7 @@ const props = defineProps({
 </script>
 
 <style scoped>
+
 .card {
   position: relative;
   overflow: hidden;
@@ -44,14 +45,14 @@ const props = defineProps({
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 50px; /* Altura fija para el contenedor del título */
-  background: rgba(0, 0, 0, 0.5); /* Sombreado semitransparente */
+  height: 50px; 
+  background: rgba(0, 0, 0, 0.5);
   text-align: center;
   opacity: 0;
   transition: opacity 0.3s;
   display: flex;
-  align-items: center; /* Centra verticalmente el título */
-  justify-content: center; /* Centra horizontalmente el título */
+  align-items: center;
+  justify-content: center; 
 }
 
 .card:hover .content-text {
@@ -63,13 +64,13 @@ h4 {
   margin: 0px;
   color: aliceblue;
   font-size: 100%;
-  white-space: nowrap; /* Evita que el texto se rompa en varias líneas */
-  overflow: hidden; /* Oculta el texto que desborde el contenedor */
-  text-overflow: ellipsis; /* Añade puntos suspensivos al final del texto si es demasiado extenso */
-  max-width: 90%; /* Limita el ancho del título para que no desborde el contenedor */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; 
+  max-width: 90%;
 }
 
-/* En dispositivos móviles, muestra el título por defecto y ajusta el tamaño del texto */
+
 @media (max-width: 600px) {
   .content-text {
     opacity: 1;
@@ -79,4 +80,5 @@ h4 {
     font-size: 0.7rem;
   }
 }
+
 </style>

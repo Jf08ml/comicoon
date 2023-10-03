@@ -37,6 +37,7 @@ const actionCard = (serie) => {
 </script>
 
 <style scoped>
+ 
 .content-list-series {
   display: flex;
   flex-direction: column;
@@ -44,6 +45,7 @@ const actionCard = (serie) => {
   height: 100%;
   width: 100%;
 }
+
 .series {
   display: flex;
   flex-wrap: wrap;
@@ -53,31 +55,32 @@ const actionCard = (serie) => {
   width: 100%;
   box-sizing: border-box;
 }
+
 .serie-item {
   margin: auto;
 }
 
-/* Pantallas grandes (escritorio) */
 @media (min-width: 1200px) {
   .serie-item {
-    width: calc(100% / 7); /* 7 tarjetas por fila */
-    height: auto; /* Ajusta según tus necesidades */
+    width: calc(100% / 7); 
+    height: auto; 
   }
 }
 
-/* Pantallas medianas (tabletas) */
+
 @media (min-width: 768px) and (max-width: 1199px) {
   .serie-item {
-    width: calc(100% / 4); /* 4 tarjetas por fila */
-    height: auto; /* Ajusta según tus necesidades */
+    width: calc(100% / 4); 
+    height: auto; 
   }
 }
 
-/* Pantallas pequeñas (móviles) */
+
 @media (max-width: 767px) {
   .serie-item {
-    width: calc(100% / 2.3); /* 2 tarjetas por fila */
-    height: auto; /* Ajusta según tus necesidades */
+    width: calc(100% / 2.3); 
+    height: auto; 
   }
 }
+
 </style>

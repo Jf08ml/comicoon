@@ -37,6 +37,7 @@ const emitOpenSerie = () => emit('open-serie');
 </script>
 
 <style scoped>
+
 .btn-navigation {
   background-color: #b81f59;
   color: white;
@@ -74,4 +75,5 @@ const emitOpenSerie = () => emit('open-serie');
     width: 10%;
   }
 }
+
 </style>

@@ -1,15 +1,74 @@
 @import "./variables.scss";
 
-@mixin responsive-font-size($default-size: 1rem, $small-size: 0.8rem) {
+@mixin responsive-font-size($default-size:1rem, $small-size:0.8rem) {
     font-size: $default-size;
 
     @media screen and (max-width:600px) {
         font-size: $small-size;
         transition: all 0.2s ease-in-out;
     }
+
 }
 
+.navbar {
+    display: flex;
+    align-items: center;
+    height: 10vh;
+    background-color: $bg-color;
+}
 
+.navbar-brand {
+    background-color: yellow;
+    min-width: 25vw;
+}
+
+.navbar-sections {
+    display: flex;
+    //justify-content: center;
+    align-items: center;
+    width: 75vw;
+    background-color: blue;
+}
+
+.navbar-sections-public {
+    display: flex;
+    justify-content: center;
+    width: 85%;
+    background-color: pink;
+}
+
+.navbar-sections-user {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: red;
+    width: 25%;
+}
+
+.navbar-content-allusers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+    width: 100%;
+    background-color: green;
+}
+
+.navbar-content-usersession {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+    background-color: lightblue;
+}
+
+.menu {
+    display: none;
+}
+
+.hamburger-icon {
+    display: none;
+}
+
+/*
 .navbar {
     @include responsive-font-size(1.5rem, 1.2rem);
     background-color: $bg-color;
@@ -29,6 +88,7 @@
         display: flex;
         align-items: center;
         width: 60%;
+
 
         @media screen and (max-width:900px) {
             transition: all 0.2s ease-in-out;
@@ -131,15 +191,14 @@
     width: 10vw;
     background-color: white;
     border-radius: 5px;
-    box-shadow: 0 0 3px black;
     padding: 5px;
     z-index: 999;
+
 
     li {
         list-style: none;
     }
 }
-
 
 //Estilos del menú movil
 .menu-wrapper {
@@ -148,6 +207,7 @@
 }
 
 .menu-overlay {
+    /*
     position: absolute;
     top: 100%;
     left: 0;
@@ -163,6 +223,7 @@
     li {
         list-style: none;
     }
+    
 }
 
 .menu-hamburger {
@@ -216,3 +277,4 @@
     font-size: 20px;
     color: $primary-color;
 }
+*/
