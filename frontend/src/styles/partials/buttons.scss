@@ -21,6 +21,43 @@
 
 }
 
+.nav-button{
+    @include button-styles;
+    font-size: $font-size-title-page;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    padding: 20px;
+    width: 100%;
+    height: 8vh;
+}
+
+.nav-button-menu {
+    @include button-styles;
+    font-size: $font-size;
+    height: auto;
+}
+
+/*
+@mixin button-styles($bg-color: $primary-color, $text-color: #fff, $border: none) {
+    background-color: $bg-color;
+    color: $text-color;
+    border: $border;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: darken($primary-color, 10%);
+        color: #fff
+    }
+
+    @media screen and (max-width:500px) {
+        font-size: calc(#{$font-size} - 1px);
+        transition: all 0.2s ease-in-out;
+    }
+
+}
+
 .button-primary {
     @include button-styles($primary-color);
     margin: 25px;
@@ -114,3 +151,5 @@
         background-color: darken($primary-color, 5%);
     }
 }
+
+*/

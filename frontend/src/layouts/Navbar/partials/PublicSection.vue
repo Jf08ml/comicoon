@@ -14,7 +14,7 @@
             <ul
               v-if="menuItem.showMenu"
               class="menu-overlay"
-              @mouseleave="menuItem.showMenu = false"
+
             >
               <li v-for="submenu in menuItem.subMenus" :key="submenu.name">
                 <router-link custom :to="'/' + submenu.route">
@@ -26,6 +26,7 @@
                   </template>
                 </router-link>
               </li>
+<!--
               <div align="center">
                 <button
                   @click="menuItem.showMenu = false"
@@ -34,6 +35,7 @@
                   Cerrar
                 </button>
               </div>
+            -->
             </ul>
           </div>
         </template>
