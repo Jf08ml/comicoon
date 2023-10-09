@@ -4,22 +4,22 @@
     <section class="profile-section">
       <div
         class="section"
-        :class="{ 'active-section': activeSection === 'Basic Information' }"
-        @click="changeSection('Basic Information')"
+        :class="{ 'active-section': activeSection === 'BasicInformation' }"
+        @click="changeSection('BasicInformation')"
       >
         User Information
       </div>
       <div
         class="section"
-        :class="{ 'active-section': activeSection === 'Payment Information' }"
-        @click="changeSection('Payment Information')"
+        :class="{ 'active-section': activeSection === 'PaymentInformation' }"
+        @click="changeSection('PaymentInformation')"
       >
         Payments
       </div>
       <div
         class="section"
-        :class="{ 'active-section': activeSection === 'Content Statistics' }"
-        @click="changeSection('Content Statistics')"
+        :class="{ 'active-section': activeSection === 'ContentStatistics' }"
+        @click="changeSection('ContentStatistics')"
       >
         Content Statistics
       </div>
@@ -28,7 +28,7 @@
         :class="{ 'active-section': activeSection === 'Contents' }"
         @click="changeSection('Contents')"
       >
-        Contents
+        Content Options
       </div>
     </section>
     <div class="profile-content-section">
@@ -36,8 +36,9 @@
         :userInformation="userBasicInformation"
         @on-submit-basic-information="onSubmitBasicInformation"
         @update-password-user="updatePasswordUser"
-        v-if="activeSection === 'Basic Information'"
+        v-if="activeSection === 'BasicInformation'"
       />
+      <UserContent v-if="activeSection === 'Contents'" />
     </div>
   </div>
 </template>
@@ -45,17 +46,20 @@
 <script setup>
 import { ref, onBeforeMount } from "vue";
 import UserInformation from "./content/UserInformation.vue";
+import UserContent from "./content/UserContent.vue";
 import { getUser, updateUser, updatePassword } from "@/services/auth.js";
+import { useRoute } from "vue-router";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 
 const userBasicInformation = ref();
+const route = useRoute();
 
 onBeforeMount(async () => {
   await getUserData();
 });
 
-const activeSection = ref("Basic Information");
+const activeSection = ref(route.params.activeSection || "BasicInformation");
 
 const changeSection = (section) => {
   activeSection.value = section;

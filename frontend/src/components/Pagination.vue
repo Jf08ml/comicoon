@@ -5,6 +5,7 @@
         <button
           class="buttons-page"
           @click="emitSelectedPage(buttonPage)"
+          :style="{ color: textColor }"
           :class="{ 'buttons-page-active': buttonPage === currentPage }"
         >
           {{ buttonPage }}
@@ -19,6 +20,7 @@
         :disabled="button.disabled"
         :title="button.title"
         :icon="button.icon"
+        :backgroundColor="backgroundColor"
         @click="button.action"
       />
     </div>
@@ -32,6 +34,7 @@ import NavigationButton from "./buttons/NavigationButton.vue"; // Asegúrate de 
 const props = defineProps({
   currentPage: Number,
   totalPages: Number,
+  backgroundColor: String,
 });
 
 const emit = defineEmits([
@@ -43,6 +46,15 @@ const emit = defineEmits([
 ]);
 
 const visiblePageCount = 5;
+
+const textColor = computed(() => {
+  const bgColor = props.backgroundColor || "#FFFFFF"; // Asumiendo blanco por defecto
+  const r = parseInt(bgColor.slice(1, 3), 16);
+  const g = parseInt(bgColor.slice(3, 5), 16);
+  const b = parseInt(bgColor.slice(5, 7), 16);
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  return luminance > 0.5 ? "black" : "white";
+});
 
 // Definición de las páginas visibles
 const visiblePages = computed(() => {

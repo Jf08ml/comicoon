@@ -2,7 +2,7 @@
   <div class="container-auth">
     <div class="content">
       <div class="content-title">
-        <h1>Log in</h1>
+        <h2>Log in</h2>
       </div>
 
       <div class="content-form">
@@ -51,7 +51,7 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { login, getUser } from "@/services/auth.js";
+import { login, getUser, getUserRole } from "@/services/auth.js";
 
 const router = useRouter();
 
@@ -63,7 +63,12 @@ const onSubmit = async () => {
   try {
     await login(identifier.value, password.value);
     await getUser();
-    router.push("/");
+    const userRol = await getUserRole();
+
+    userRol.name === "Administrator"
+      ? router.push("/dashboard")
+      : router.push("/");
+
   } catch (error) {
     if (error.result === "errorPassword") {
       showMsgError.value = "Email o contraseña incorrecta";

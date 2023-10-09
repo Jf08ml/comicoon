@@ -1,10 +1,19 @@
 import jwt from "jsonwebtoken";
 const { JWT_SECRET, JWT_REFRESH_SECRET } = process.env;
 import User from "../models/users";
+import Role from "../models/roles";
 
 async function signup(req, res) {
   try {
     const { nickname, email, password } = req.body;
+
+    const standardRole = await Role.findOne({ name: "Standard" });
+
+    if (!standardRole) {
+      return res
+        .status(500)
+        .json({ result: "error", message: "Server error role" });
+    }
 
     const existingUser = await User.findOne({
       $or: [{ email: email }, { nickname: nickname }],
@@ -24,13 +33,25 @@ async function signup(req, res) {
       }
     }
 
-    const user = new User({ nickname, email, password });
+    const user = new User({
+      nickname,
+      email,
+      password,
+      role: standardRole._id,
+    });
+
     await user.save();
 
-    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "1h" });
-    const refreshToken = jwt.sign({ id: user._id }, JWT_REFRESH_SECRET, {
-      expiresIn: "24h",
+    const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, {
+      expiresIn: "1h",
     });
+    const refreshToken = jwt.sign(
+      { id: user._id, role: user.role },
+      JWT_REFRESH_SECRET,
+      {
+        expiresIn: "24h",
+      }
+    );
 
     res.status(201).json({ result: "success", token, refreshToken });
   } catch (err) {
@@ -66,10 +87,16 @@ async function login(req, res) {
     }
 
     // Generar tokens
-    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "1h" });
-    const refreshToken = jwt.sign({ id: user._id }, JWT_REFRESH_SECRET, {
-      expiresIn: "24h",
+    const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, {
+      expiresIn: "2h",
     });
+    const refreshToken = jwt.sign(
+      { id: user._id, role: user.role },
+      JWT_REFRESH_SECRET,
+      {
+        expiresIn: "24h",
+      }
+    );
 
     const tokenDuration = 3600; // duración del token en segundos (1 hora)
     const refreshTokenDuration = 86400; // duración del refresh token en segundos (24 horas)
@@ -113,10 +140,16 @@ async function refreshTokens(req, res) {
         return res.status(401).json({ message: "Unauthorized" });
       }
 
-      const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "1h" });
-      const newRefreshToken = jwt.sign({ id: user._id }, JWT_REFRESH_SECRET, {
-        expiresIn: "24h",
+      const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, {
+        expiresIn: "1h",
       });
+      const newRefreshToken = jwt.sign(
+        { id: user._id, role: user.role },
+        JWT_REFRESH_SECRET,
+        {
+          expiresIn: "24h",
+        }
+      );
 
       res
         .status(200)
@@ -254,6 +287,21 @@ async function updateProfilePhoto(req, res) {
   }
 }
 
+async function userRole(req, res) {
+  const rolId = req.userRole;
+  try {
+    const response = await Role.findById(rolId);
+
+    res.status(200).json({
+      result: "success",
+      message: "Photo update success",
+      rol: response,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "servidor error" });
+  }
+}
+
 export {
   signup,
   login,
@@ -263,4 +311,5 @@ export {
   updateProfilePhoto,
   getUser,
   updatePassword,
+  userRole,
 };

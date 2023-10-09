@@ -40,9 +40,26 @@ body {
     width: 100%;
 }
 
-h3 {
-    color: white;
+.dark-view {
+    background-color: #020e2e;
+
+    h1,
+    h2,
+    h3 {
+        color: #ffffff;
+    }
 }
+
+.light-view {
+    background-color: #ffffff;
+
+    h1,
+    h2,
+    h3 {
+        color: #000000;
+    }
+}
+
 
 *,
 *::before,

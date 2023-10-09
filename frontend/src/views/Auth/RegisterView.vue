@@ -2,7 +2,7 @@
   <div class="container-auth">
     <div class="content">
       <div class="content-title">
-        <h1>Sign Up</h1>
+        <h2>Sign Up</h2>
       </div>
 
       <div class="content-form">

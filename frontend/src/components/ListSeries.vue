@@ -55,6 +55,7 @@ const actionCard = (serie) => {
 }
 .serie-item {
   margin: auto;
+  box-shadow: 0 0 10px black;
 }
 
 @media (min-width: 1200px) {

@@ -1,9 +1,12 @@
 import { apiSeries } from "./api.js";
 import { useLoadingStore } from "@/store/loadingStore.js";
+import { useAuthStore } from "../store/auth.js";
 
+const useAuth = useAuthStore();
 const useLoading = useLoadingStore();
 
-export async function seriePost(serie, token) {
+export async function seriePost(serie) {
+  const token = useAuth.token;
   try {
     useLoading.show();
 
@@ -27,7 +30,8 @@ export async function seriePost(serie, token) {
   }
 }
 
-export async function getUserSeries(page, limit, token) {
+export async function getUserSeries(page, limit) {
+  const token = useAuth.token;
   try {
     useLoading.show();
     const response = await apiSeries.get(
@@ -47,7 +51,8 @@ export async function getUserSeries(page, limit, token) {
   }
 }
 
-export async function getUserSerie(id, token) {
+export async function getUserSerie(id) {
+  const token = useAuth.token;
   try {
     useLoading.show();
     const response = await apiSeries.get(`/userserie/${id}`, {
@@ -64,7 +69,8 @@ export async function getUserSerie(id, token) {
   }
 }
 
-export async function assignScoreSerie(serieId, token) {
+export async function assignScoreSerie(serieId) {
+  const token = useAuth.token;
   try {
     const response = await apiSeries.put(
       `/assignScoreSerie`,
@@ -84,7 +90,8 @@ export async function assignScoreSerie(serieId, token) {
   }
 }
 
-export async function countViewsSerie(serieId, token) {
+export async function countViewsSerie(serieId) {
+  const token = useAuth.token;
   try {
     const response = await apiSeries.put(
       `/sumViewSerie`,
@@ -173,7 +180,8 @@ export async function searchSerie(nameSerie, page, limit) {
   }
 }
 
-export async function getSeriesToInscribe(page, limit, token) {
+export async function getSeriesToInscribe(page, limit) {
+  const token = useAuth.token;
   try {
     useLoading.show();
 
@@ -194,7 +202,8 @@ export async function getSeriesToInscribe(page, limit, token) {
   }
 }
 
-export async function enteredSeries(serie, token) {
+export async function enteredSeries(serie) {
+  const token = useAuth.token;
   try {
     useLoading.show();
 

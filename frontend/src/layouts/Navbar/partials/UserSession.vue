@@ -1,7 +1,10 @@
 <template>
-  <div style="display: flex; width: 100%; justify-content: center;">
+  <div style="display: flex; width: 100%; justify-content: center">
     <div>
-      <router-link custom :to="{ name: 'Upload' }">
+      <router-link
+        custom
+        :to="{ name: 'Upload', params: { activeSection: 'Contents' } }"
+      >
         <template v-slot="{ navigate }">
           <button class="nav-button-menu-logout" @click="navigate">
             <v-icon
@@ -13,7 +16,7 @@
         </template>
       </router-link>
     </div>
-    <div style="margin-inline-end: 20px;">
+    <div style="margin-inline-end: 20px">
       <button @click="logOut()" class="nav-button-menu-logout">
         <v-icon name="co-account-logout" scale="1.2" title="Log Out" />
       </button>

@@ -6,6 +6,7 @@ export const useAuthStore = defineStore("auth", {
   state: () => ({
     token: Cookies.get("accessToken") || null,
     refreshTokenUser: Cookies.get("refreshToken") || null,
+    userRolName: "",
     userImgProfile: "",
   }),
   getters: {

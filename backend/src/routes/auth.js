@@ -9,6 +9,7 @@ import {
   updateUser,
   updateProfilePhoto,
   updatePassword,
+  userRole,
 } from "../controllers/userController";
 import verifyToken from "../middleware/auth";
 
@@ -20,8 +21,6 @@ router.get("/searchnickname/:nickname", searchNickname);
 router.put("/updateuser", verifyToken, updateUser);
 router.put("/updateprofilephoto", verifyToken, updateProfilePhoto);
 router.put("/updatepassword", verifyToken, updatePassword);
-router.get("/protected", verifyToken, (req, res) => {
-  res.json({ message: "You are authorized to access this route." });
-});
+router.get("/userrole", verifyToken, userRole);
 
 export default router;

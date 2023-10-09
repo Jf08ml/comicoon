@@ -35,6 +35,11 @@ const userSchema = new Schema({
   userUrlPhoto: {
     type: String,
   },
+  role: {
+    type: Schema.Types.ObjectId,
+    ref: "Role",
+    required: true,
+  },
 });
 
 userSchema.pre("save", async function (next) {

@@ -143,3 +143,19 @@ export async function updateProfilePhoto(userPhotoUrl, token) {
     throw new Error("Error al actualizar los datos del usuario");
   }
 }
+
+export async function getUserRole() {
+  try {
+    const token = useAuthStore().token;
+    const response = await apiAuth.get(`/userrole`, {
+      headers: {
+        "Cache-Control": "no-cache",
+        Authorization: token,
+      },
+    });
+    useAuth.userRolName = response.data.rol.name;
+    return response.data.rol;
+  } catch (error) {
+    return await Promise.reject(error.response.data);
+  }
+}

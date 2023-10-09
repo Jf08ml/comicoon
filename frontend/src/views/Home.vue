@@ -49,6 +49,7 @@
         <Pagination
           :currentPage="currentPage"
           :totalPages="totalPages"
+          backgroundColor="black"
           @prev-page="updatePage(currentPage - 1)"
           @jump-prev-page="updatePage(currentPage - 5)"
           @selected-page="updatePage"
