@@ -8,10 +8,15 @@
     border: $border;
     border-radius: 5px;
     cursor: pointer;
+    text-align: center;
+    padding: 5px;
+    height: 8vh;
+    width: 15vw;
 
     &:hover {
         background-color: darken($primary-color, 10%);
-        color: #fff
+        color: #fff;
+        transition: all 0.5s;
     }
 
     @media screen and (max-width:500px) {
@@ -35,7 +40,54 @@
 .nav-button-menu {
     @include button-styles;
     font-size: $font-size;
-    height: auto;
+}
+
+.nav-button-submenu {
+    @include button-styles(transparent, black);
+    padding: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /*
+
+    @include button-styles(transparent, black);
+    background-color: transparent;
+    width: 100%;
+    color: black;
+    align-items: center;
+    padding: 10px;
+    font-size: 13px;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    font-family: $primary-font;
+
+    */
+}
+
+.nav-button-menu-auth {
+    @include button-styles($border: 1px solid whitesmoke);
+    font-size: $font-size;
+    width: 80px;
+    margin-inline: 6px;
+    padding: 5px;
+
+    &:hover {
+        box-shadow: 0 0 5px white;
+    }
+}
+
+.nav-button-menu-logout,
+.nav-button-icone {
+    @include button-styles(transparent);
+    align-items: center;
+    border-radius: 50%;
+
+
+    &:hover {
+        background-color: darken($primary-color, 5%);
+    }
 }
 
 /*
