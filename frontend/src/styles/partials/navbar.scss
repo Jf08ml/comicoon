@@ -118,16 +118,21 @@
 }
 
 @media screen and (max-width:900px) {
-
     .navbar {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 10px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 10px;
     }
 
     .navbar-sections {
         transition: all 0.2s ease-in-out;
         display: none;
+    }
+
+    .hamburger-icon {
+        position: relative;
+        display: flex;
+        justify-content: center;
     }
 
     .menu-mobil {
@@ -136,7 +141,7 @@
     }
 
     .menu {
-        display: none;
+        display: block;
     }
 
     .menu-open {
@@ -151,12 +156,6 @@
         padding: 5px;
         z-index: 999;
         display: block;
-    }
-
-    .hamburger-icon {
-        position: relative;
-        display: flex;
-        justify-content: center;
     }
 
 }
