@@ -88,7 +88,7 @@ async function login(req, res) {
 
     // Generar tokens
     const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, {
-      expiresIn: "2h",
+      expiresIn: "1h",
     });
     const refreshToken = jwt.sign(
       { id: user._id, role: user.role },

@@ -27,6 +27,20 @@
     box-shadow: 0 2px 0 black;
 }
 
+.button-blue {
+    padding: 10px 15px;
+    background-color: $secundary-color;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.button-blue:hover {
+    background-color: $secundary-color;
+}
+
 .btn-blocked {
     background-color: #7e7e7e;
     color: rgb(252, 252, 252);

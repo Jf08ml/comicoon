@@ -23,7 +23,7 @@ function verifyToken(req, res, next) {
       next();
     });
   } catch (error) {
-    return res.status(401).json({ result: "error", message: "Invalid token." });
+    return res.status(401).json({ result: "error", message: error.message });
   }
 }
 

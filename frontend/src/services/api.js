@@ -10,9 +10,10 @@ const createAxiosInstance = (baseURL) => {
   api.interceptors.response.use(
     (response) => response,
     async (error) => {
+      console.log(error);
       if (
         error.response.status === 401 &&
-        error.response.data.result === "TokenExpiredError"
+        error.response.data.message === "jwt expired"
       ) {
         try {
           const response = await refreshToken();
