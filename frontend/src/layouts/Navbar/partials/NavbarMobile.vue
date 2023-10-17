@@ -20,112 +20,114 @@
       />
     </div>
 
-    <div class="menu" :class="{ 'menu-open': isOpen }">
-      <router-link custom to="/realcomics">
-        <template v-slot="{ navigate }">
-          <button
-            @click="
-              () => {
-                navigate();
-                isOpen = false;
-              }
-            "
-            class="nav-link-mobile"
-          >
-            <v-icon
-              name="fa-person-booth"
-              scale="1.2"
-              title="Real Comics"
-              color="#da2644"
-            />
-            Real
-          </button>
-        </template>
-      </router-link>
-      <router-link custom to="/animatedcomics">
-        <template v-slot="{ navigate }">
-          <button
-            @click="
-              () => {
-                navigate();
-                isOpen = false;
-              }
-            "
-            class="nav-link-mobile"
-          >
-            <v-icon
-              name="si-gitbook"
-              scale="1.5"
-              title="Real Comics"
-              color="#da2644"
-            />
-            Animated
-          </button>
-        </template>
-      </router-link>
-      <router-link custom to="/earnmoney">
-        <template v-slot="{ navigate }">
-          <button
-            @click="
-              () => {
-                navigate();
-                isOpen = false;
-              }
-            "
-            class="nav-link-mobile"
-          >
-            <v-icon
-              name="gi-take-my-money"
-              scale="1.5"
-              title="Earn money"
-              color="#da2644"
-            />
-            Earn money
-          </button>
-        </template>
-      </router-link>
-      <router-link custom to="/login" v-if="!authStore.token">
-        <template v-slot="{ navigate }">
-          <button
-            @click="
-              () => {
-                navigate();
-                isOpen = false;
-              }
-            "
-            class="nav-link-mobile"
-          >
-            <v-icon
-              name="md-login"
-              scale="1.2"
-              title="Real Comics"
-              color="#da2644"
-            />
-            Log In
-          </button>
-        </template>
-      </router-link>
-      <router-link custom to="/signup" v-if="!authStore.token">
-        <template v-slot="{ navigate }">
-          <button
-            @click="
-              () => {
-                navigate();
-                isOpen = false;
-              }
-            "
-            class="nav-link-mobile"
-          >
-            <v-icon
-              name="md-newlabel-twotone"
-              scale="1.2"
-              title="Real Comics"
-              color="#da2644"
-            />
-            Sign Up
-          </button>
-        </template>
-      </router-link>
+    <div class="menu" :style="{ display: isOpen ? 'block' : 'none' }">
+      <div class="menu-open">
+        <router-link custom to="/realcomics">
+          <template v-slot="{ navigate }">
+            <button
+              @click="
+                () => {
+                  navigate();
+                  isOpen = false;
+                }
+              "
+              class="nav-link-mobile"
+            >
+              <v-icon
+                name="fa-person-booth"
+                scale="1.2"
+                title="Real Comics"
+                color="#da2644"
+              />
+              Real
+            </button>
+          </template>
+        </router-link>
+        <router-link custom to="/animatedcomics">
+          <template v-slot="{ navigate }">
+            <button
+              @click="
+                () => {
+                  navigate();
+                  isOpen = false;
+                }
+              "
+              class="nav-link-mobile"
+            >
+              <v-icon
+                name="si-gitbook"
+                scale="1.5"
+                title="Real Comics"
+                color="#da2644"
+              />
+              Animated
+            </button>
+          </template>
+        </router-link>
+        <router-link custom to="/earnmoney">
+          <template v-slot="{ navigate }">
+            <button
+              @click="
+                () => {
+                  navigate();
+                  isOpen = false;
+                }
+              "
+              class="nav-link-mobile"
+            >
+              <v-icon
+                name="gi-take-my-money"
+                scale="1.5"
+                title="Earn money"
+                color="#da2644"
+              />
+              Earn money
+            </button>
+          </template>
+        </router-link>
+        <router-link custom to="/login" v-if="!authStore.token">
+          <template v-slot="{ navigate }">
+            <button
+              @click="
+                () => {
+                  navigate();
+                  isOpen = false;
+                }
+              "
+              class="nav-link-mobile"
+            >
+              <v-icon
+                name="md-login"
+                scale="1.2"
+                title="Real Comics"
+                color="#da2644"
+              />
+              Log In
+            </button>
+          </template>
+        </router-link>
+        <router-link custom to="/signup" v-if="!authStore.token">
+          <template v-slot="{ navigate }">
+            <button
+              @click="
+                () => {
+                  navigate();
+                  isOpen = false;
+                }
+              "
+              class="nav-link-mobile"
+            >
+              <v-icon
+                name="md-newlabel-twotone"
+                scale="1.2"
+                title="Real Comics"
+                color="#da2644"
+              />
+              Sign Up
+            </button>
+          </template>
+        </router-link>
+      </div>
     </div>
   </div>
 </template>

@@ -142,22 +142,38 @@
 
     .menu {
         display: block;
-    }
-
-    .menu-open {
         position: absolute;
-        top: 100%;
-        right: 0;
-        margin-top: 1px;
-        min-width: 100%;
-        width: 100vw;
-        background-color: white;
-        border: 1px solid black;
-        padding: 5px;
-        z-index: 999;
-        display: block;
+        top: 10%;
+        left: 0;
+        z-index: 4;
+        background-color: lightblue;
     }
 
+    .menu-open  {
+        display: grid;
+
+    }
+
+    .menu-open button {
+        width: 100vw;
+    }
+
+
+    /*
+        .menu-open {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 1px;
+            min-width: 100%;
+            width: 100vw;
+            background-color: white;
+            border: 1px solid black;
+            padding: 5px;
+            z-index: 999;
+            display: block;
+        }
+    */
 }
 
 /*
