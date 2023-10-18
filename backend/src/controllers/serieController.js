@@ -4,7 +4,7 @@ import Serie from "../models/serie";
 
 async function postSerie(req, res) {
   const {
-    serie: { title, description, artist, typeContent, keywords },
+    serie: { name, description, frontPage, artist, contentType, keywords },
   } = req.body;
 
   try {
@@ -18,10 +18,11 @@ async function postSerie(req, res) {
 
     const serie = new Serie({
       userId: req.userId,
-      nameSerie: title,
+      name,
       description,
       artist,
-      typeContent,
+      frontPage,
+      contentType,
       keywords,
     });
 
@@ -33,6 +34,33 @@ async function postSerie(req, res) {
       result: "error",
       message: "An error occurred while saving the series.",
     });
+  }
+}
+
+async function putComicInSerie(req, res) {
+  const { serie, _id, imagesPost } = req.body.comicLoaded;
+  try {
+    const serieFound = await Serie.findById(serie);
+    if (!serieFound) {
+      return res
+        .status(404)
+        .json({ result: "error", message: "Serie not found" });
+    }
+
+    serieFound.frontPage = serieFound.frontPage
+      ? serieFound.frontPage
+      : imagesPost[0];
+
+    if (!serieFound.partsSerie.includes(_id)) {
+      serieFound.partsSerie.push(_id);
+    }
+
+    await serieFound.save({ timestamps: false });
+    return res
+      .status(200)
+      .json({ result: "success", message: "success updated" });
+  } catch (error) {
+    return res.status(500).json({ result: "error", message: error });
   }
 }
 
@@ -337,6 +365,7 @@ async function enteredSeries(req, res) {
 
 export {
   postSerie,
+  putComicInSerie,
   getUserSeries,
   getUserSerie,
   assignScoreSerie,

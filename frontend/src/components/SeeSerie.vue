@@ -1,7 +1,7 @@
 <template>
   <div align="center">
     <div>
-      <h1>{{ serie.nameSerie }}</h1>
+      <h1>{{ serie.name }}</h1>
     </div>
     <LineDivider />
     <div class="content-description">
@@ -40,7 +40,7 @@
       :key="index"
     >
       <router-link class="custom-router-link" :to="`/viewcomic/${item}`">
-        {{ index + 1}}.{{ serie.nameSerie }}
+        {{ index + 1}}.{{ serie.name }}
       </router-link>
     </div>
   </div>

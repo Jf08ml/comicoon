@@ -5,11 +5,9 @@ import { useAuthStore } from "../store/auth.js";
 const useAuth = useAuthStore();
 const useLoading = useLoadingStore();
 
-export async function seriePost(serie) {
+export async function postSerie(serie) {
   const token = useAuth.token;
   try {
-    useLoading.show();
-
     const response = await apiSeries.post(
       `/postserie`,
       {
@@ -25,8 +23,27 @@ export async function seriePost(serie) {
     return response.data;
   } catch (error) {
     return await Promise.reject(error.response.data);
-  } finally {
-    useLoading.hide();
+  }
+}
+
+export async function putComicInSerie(comicLoaded) {
+  const token = useAuth.token;
+  try {
+    const response = await apiSeries.put(
+      `/putcomicserie`,
+      {
+        comicLoaded,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return await Promise.reject(error.response.data);
   }
 }
 

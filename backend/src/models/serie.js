@@ -3,7 +3,7 @@ import { Schema, Types, model } from "mongoose";
 const serieSchema = new Schema({
   _id: {
     type: Schema.Types.ObjectId,
-    default: Types.ObjectId, // Esto generará un nuevo ObjectId único por defecto
+    default: () => new Types.ObjectId(), 
   },
   userId: {
     type: Schema.Types.ObjectId,
@@ -11,7 +11,7 @@ const serieSchema = new Schema({
     index: true,
     required: true,
   },
-  nameSerie: {
+  name: {
     type: String,
     required: true,
   },
@@ -22,7 +22,7 @@ const serieSchema = new Schema({
     type: String,
     required: true,
   },
-  typeContent: {
+  contentType: {
     type: String,
     required: true,
   },

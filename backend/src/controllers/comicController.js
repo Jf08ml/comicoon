@@ -4,16 +4,16 @@ import Serie from "../models/serie";
 import Rate from "../models/score";
 
 async function postComic(req, res) {
-  const { title, imagesPost, comicPart, serie } = req.body.postComplete;
+  const { name, imagesPost, serie } = req.body.postComplete;
   try {
     const userId = req.userId;
     const user = await User.findById(userId);
 
     const comic = new Comic({
       user: user._id,
-      title: title,
-      imagesPost: imagesPost,
-      serie: comicPart ? comicPart : serie,
+      name,
+      imagesPost,
+      serie,
     });
 
     await comic.save();
@@ -41,33 +41,6 @@ async function getUserComic(req, res) {
     const mainComic = await Comic.findById(id); // Busca el cómic principal por su ID
 
     return res.status(200).json(mainComic); // Retorna los cómics relacionados
-  } catch (error) {
-    return res.status(500).json({ result: "error", message: error });
-  }
-}
-
-async function putComic(req, res) {
-  const { serie, _id, imagesPost } = req.body.comicLoaded;
-  try {
-    const serieFound = await Serie.findById(serie);
-    if (!serieFound) {
-      return res
-        .status(404)
-        .json({ result: "error", message: "Serie not found" });
-    }
-
-    serieFound.frontPage = serieFound.frontPage
-      ? serieFound.frontPage
-      : imagesPost[0];
-
-    if (!serieFound.partsSerie.includes(_id)) {
-      serieFound.partsSerie.push(_id);
-    }
-
-    await serieFound.save({ timestamps: false });
-    return res
-      .status(200)
-      .json({ result: "success", message: "success updated" });
   } catch (error) {
     return res.status(500).json({ result: "error", message: error });
   }
@@ -155,7 +128,6 @@ export {
   postComic,
   getUserComics,
   getUserComic,
-  putComic,
   postRateComic,
   assignScoreComic,
   countViewsComic,

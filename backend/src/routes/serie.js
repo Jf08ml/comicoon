@@ -2,6 +2,7 @@ import { Router } from "express";
 const router = Router();
 import {
   postSerie,
+  putComicInSerie,
   getUserSeries,
   getUserSerie,
   assignScoreSerie,
@@ -18,6 +19,7 @@ import verifyToken from "../middleware/auth";
 router.get("/userseries", verifyToken, getUserSeries);
 router.get("/userserie/:id", getUserSerie);
 router.post("/postserie", verifyToken, postSerie);
+router.put("/putcomicserie", verifyToken, putComicInSerie);
 router.put("/assignScoreSerie", assignScoreSerie);
 router.put("/sumViewSerie", countViewsSerie);
 router.get("/azarseries", getAzarSeries);

@@ -3,7 +3,7 @@
     <div class="series">
       <div class="serie-item" v-for="serie in series" :key="serie._id">
         <CardDefault
-          :title="serie.nameSerie"
+          :title="serie.name"
           :description="serie.description"
           :image="serie.frontPage"
           :views="serie.views"

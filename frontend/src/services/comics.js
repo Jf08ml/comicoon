@@ -1,6 +1,12 @@
 import { apiComics } from "./api.js";
+import { useLoadingStore } from "@/store/loadingStore.js";
+import { useAuthStore } from "../store/auth.js";
 
-export async function comicPost(postComplete, token) {
+const useAuth = useAuthStore();
+const useLoading = useLoadingStore();
+
+export async function comicPost(postComplete) {
+  const token = useAuth.token;
   try {
     const response = await apiComics.post(
       `/postcomic`,
@@ -42,26 +48,6 @@ export async function getUserComic(id, token) {
         Authorization: `${token}`,
       },
     });
-    return response.data;
-  } catch (error) {
-    return await Promise.reject(error.response.data);
-  }
-}
-
-export async function putComic(comicLoaded, token) {
-  try {
-    const response = await apiComics.put(
-      `/putcomic`,
-      {
-        comicLoaded,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `${token}`,
-        },
-      }
-    );
     return response.data;
   } catch (error) {
     return await Promise.reject(error.response.data);

@@ -4,8 +4,14 @@
       <div class="container-content">
         <transition name="fade" mode="out-in">
           <div v-if="showCard1" class="card">
-            <h4>Upload content</h4>
-            <form @submit.prevent="handleUpload" class="upload-form">
+            <h4>1. Upload content</h4>
+            <FormUploadImages
+              @handle-upload="handleUpload"
+              @view-imgs="viewImgs"
+              :uploadedImages="uploadedImages"
+              :fileInput="fileInput"
+            />
+            <!-- <form @submit.prevent="handleUpload" class="upload-form">
               <input
                 type="file"
                 ref="fileInput"
@@ -28,13 +34,13 @@
                   class="thumbnail-image"
                 />
               </div>
-            </div>
+            </div> -->
           </div>
         </transition>
 
         <transition name="fade" mode="out-in">
           <div v-if="showCard2" class="card">
-            <h4>Detalles de la serie</h4>
+            <h4>2. Información de la serie</h4>
             <form @submit.prevent="submitDetails" class="details-form">
               <div class="form-group">
                 <input
@@ -82,15 +88,17 @@
                     +
                   </button>
                 </div>
-                <div
-                  v-for="(keyword, index) in serieDetails.keywords"
-                  :key="index"
-                  class="keyword-chip"
-                >
-                  {{ keyword }}
-                  <span @click="removeKeyword(index)" class="remove-keyword"
-                    >x</span
+                <div class="keywords-container">
+                  <div
+                    v-for="(keyword, index) in serieDetails.keywords"
+                    :key="index"
+                    class="keyword"
                   >
+                    {{ keyword }}
+                    <span @click="removeKeyword(index)" class="remove-keyword"
+                      >x</span
+                    >
+                  </div>
                 </div>
               </div>
               <button type="submit" class="button-blue">
@@ -102,7 +110,7 @@
 
         <transition name="fade" mode="out-in">
           <div v-if="showCard3" class="card">
-            <h4>Vista previa</h4>
+            <h4>3. Ver y publicar</h4>
             <div class="preview-content">
               <h5>{{ serieDetails.name }}</h5>
               <div class="preview-thumbnails">
@@ -127,7 +135,7 @@
       </div>
 
       <div class="view-section section">
-        <h4>Uploaded content</h4>
+        <h4>Published series</h4>
         <ListSeries
           :series="userSeries"
           actionType="view"
@@ -149,10 +157,22 @@
 
 <script setup>
 import { ref, onBeforeMount } from "vue";
+import axios from "axios";
+import FormUploadImages from "../forms/UploadImages.vue";
 import ListSeries from "@/components/ListSeries.vue";
 import Pagination from "@/components/Pagination.vue";
 import router from "@/router";
-import { getUserSeries } from "@/services/series.js";
+import {
+  getUserSeries,
+  postSerie,
+  putComicInSerie,
+} from "@/services/series.js";
+import { comicPost } from "@/services/comics";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
+import { useLoadingStore } from "@/store/loadingStore.js";
+
+const useLoading = useLoadingStore();
 
 const userSeries = ref([]);
 const currentPage = ref(1);
@@ -166,29 +186,35 @@ const serieDetails = ref({
   name: "",
   description: "",
   artist: "",
-  contentType: "", 
-  keywords: ['Prueba', 'Pagination', 'Componente'],
+  contentType: "",
+  keywords: [],
 });
+
+const comicOfSerie = ref({});
 const newKeyword = ref("");
-const showCard1 = ref(false);
-const showCard2 = ref(true);
+const showCard1 = ref(true);
+const showCard2 = ref(false);
 const showCard3 = ref(false);
+
+const urlImageSend = ref([]);
 
 onBeforeMount(async () => {
   await getSeries();
 });
 
-const viewImgs = () => {
-  const files = fileInput.value.files;
+const viewImgs = (files) => {
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
     const objectURL = URL.createObjectURL(file);
-    uploadedImages.value.push({ name: file.name, preview: objectURL });
+    uploadedImages.value.push({
+      name: file.name,
+      preview: objectURL,
+      imagefile: file,
+    });
   }
 };
 
-const handleUpload = () => {
-  const files = fileInput.value.files;
+const handleUpload = (files) => {
   if (files && files.length > 0) {
     Array.from(files).forEach((file) => {
       const reader = new FileReader();
@@ -205,12 +231,6 @@ const handleUpload = () => {
           elem.height = img.height * scaleFactor;
 
           ctx.drawImage(img, 0, 0, elem.width, elem.height);
-
-          const dataURL = elem.toDataURL(file.type);
-          uploadedImages.value.push({
-            name: file.name,
-            preview: dataURL,
-          });
         };
       };
       reader.readAsDataURL(file);
@@ -220,7 +240,9 @@ const handleUpload = () => {
 };
 
 const addKeyword = () => {
-  if (newKeyword.value.trim()) {
+  if (serieDetails.value.keywords.length >= 5) {
+    toast.warning("Maximo 5 palabras clave");
+  } else if (newKeyword.value.trim() && newKeyword.value != "") {
     serieDetails.value.keywords.push(newKeyword.value.trim());
     newKeyword.value = "";
   }
@@ -228,6 +250,23 @@ const addKeyword = () => {
 
 const removeKeyword = (index) => {
   serieDetails.value.keywords.splice(index, 1);
+};
+
+const moveToCard1 = () => {
+  showCard3.value = false;
+  showCard1.value = true;
+  uploadedImages.value = [];
+
+  serieDetails.value = {
+    name: "",
+    description: "",
+    artist: "",
+    contentType: "",
+    keywords: [],
+  };
+
+  comicOfSerie.value = {};
+  newKeyword.value = "";
 };
 
 const moveToCard2 = () => {
@@ -241,18 +280,82 @@ const moveToCard3 = () => {
 };
 
 const submitDetails = () => {
-  console.log("Serie Details:", serieDetails.value);
-  console.log("Uploaded Images:", uploadedImages.value);
   moveToCard3();
 };
 
-const publishSerie = () => {};
+const postSerieBd = async () => {
+  try {
+    const response = await postSerie(serieDetails.value);
+    comicOfSerie.value.serie = response.serie_id;
+
+    if (response.result === "success") {
+      await postComic();
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const postComic = async () => {
+  try {
+    const response = await comicPost(comicOfSerie.value);
+    const comicLoaded = response.comic;
+
+    if (response.result === "success") {
+      await insertComicInSerie(comicLoaded);
+    } else {
+      toast.error(response.message);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const insertComicInSerie = async (comicLoaded) => {
+  try {
+    const response = await putComicInSerie(comicLoaded);
+    if (response.result === "success") {
+      toast.success(response.message);
+      await getSeries();
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const publishSerie = async () => {
+  useLoading.show();
+  for (let i = 0; i < uploadedImages.value.length; i++) {
+    const formData = new FormData();
+    formData.append("image", uploadedImages.value[i].imagefile);
+    formData.append("key", "0f13a40a6bc24a6565e327d5b4b5e26c");
+    const response = await axios.post(
+      "https://api.imgbb.com/1/upload",
+      formData
+    );
+    let userPhotoUrl = response.data.data.url;
+    urlImageSend.value.push(userPhotoUrl);
+  }
+
+  comicOfSerie.value = {
+    name: serieDetails.value.name,
+    imagesPost: urlImageSend.value,
+    serie: "",
+  };
+
+  await postSerieBd();
+  moveToCard1();
+  useLoading.hide();
+};
+
 const getSeries = async () => {
   try {
     const response = await getUserSeries(currentPage.value, limit.value);
     userSeries.value = response.series;
     totalPages.value = response.totalCount;
-  } catch (error) {}
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 const updatePage = async (page) => {
@@ -284,7 +387,6 @@ const openSerie = (serie) => {
 }
 
 .form-group {
-
 }
 .form-group.keywords {
   position: relative;
@@ -317,58 +419,38 @@ const openSerie = (serie) => {
 .button-add:hover {
   background-color: #0056b3;
 }
-.upload-form {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-.file-input {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-.thumbnails-section {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 20px;
-}
-.thumbnail {
-  width: 100px;
-  height: 100px;
-  overflow: hidden;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-}
-.thumbnail-image {
-  width: 100%;
-  height: auto;
-}
-.details-form-section {
-  margin-top: 30px;
-}
 .keywords {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   align-items: center;
 }
-.keyword-chip {
-  display: flex;
-  flex-flow: row wrap;
-  gap: 5px;
-  align-items: center;
 
+.keywords-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
 }
+
+.keyword {
+  margin: 0 5px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  align-items: center;
+  display: flex;
+  width: auto;
+  margin-bottom: 15px;
+}
+
 .remove-keyword {
-  cursor: pointer;
+  margin-left: 5px;
+  font-size: 14px;
   color: red;
+  cursor: pointer;
 }
-.preview-section {
-  margin-top: 40px;
-  border-top: 1px solid #ccc;
-  padding-top: 20px;
-}
+
 .preview-thumbnails {
   display: flex;
   gap: 10px;
@@ -406,6 +488,11 @@ const openSerie = (serie) => {
   h4 {
     font-size: 16px;
     margin-bottom: 10px;
+  }
+
+  .thumbnail {
+    width: 80px;
+    height: 80px;
   }
 }
 </style>

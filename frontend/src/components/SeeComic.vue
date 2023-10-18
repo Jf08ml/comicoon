@@ -4,7 +4,7 @@
       <FloatingButton />
     </div>
     <div style="display: flex; align-items: center; justify-content: center">
-      <h1>{{ comic.title }}</h1>
+      <h1>{{ comic.name }}</h1>
     </div>
     <LineDivider />
     <NavigationButtons

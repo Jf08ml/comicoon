@@ -7,7 +7,7 @@ const comicSchema = new Schema({
     index: true,
     required: true,
   },
-  title: {
+  name: {
     type: String,
     required: true,
   },

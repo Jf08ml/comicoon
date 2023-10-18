@@ -4,7 +4,6 @@ import {
   postComic,
   getUserComics,
   getUserComic,
-  putComic,
   postRateComic,
   assignScoreComic,
   countViewsComic,
@@ -14,7 +13,6 @@ import verifyToken from "../middleware/auth";
 router.post("/postcomic", verifyToken, postComic);
 router.get("/usercomics", verifyToken, getUserComics);
 router.get("/usercomic/:id", getUserComic);
-router.put("/putcomic", verifyToken, putComic);
 router.post("/rateComic", verifyToken, postRateComic);
 router.put("/assignScore", assignScoreComic);
 router.put("/sumView", countViewsComic);

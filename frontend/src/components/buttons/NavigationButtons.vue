@@ -41,7 +41,7 @@ const getButtonClass = (show) =>
 
 .btn-navigation {
   @extend %btn-navigation-base;
-  background-color: #b81f59;
+  background-color: #da2644;
   color: white;
 }
 
