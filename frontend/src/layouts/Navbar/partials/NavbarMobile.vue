@@ -5,6 +5,7 @@
     </div>
     <div class="hamburger-icon" @click="toggleMenu">
       <v-icon
+        :class="{ 'menu-icon': !isOpen }"
         v-if="!isOpen"
         name="ri-menu-fill"
         scale="2"
@@ -12,6 +13,7 @@
         color="white"
       />
       <v-icon
+        :class="{ 'menu-icon': isOpen }"
         v-if="isOpen"
         name="md-close-sharp"
         scale="2"
@@ -145,4 +147,24 @@ const toggleMenu = () => {
 };
 </script>
 
-<style></style>
+<style>
+.menu-icon {
+  transition: all 1s;
+  animation: fadeMenu 0.5s;
+}
+
+@keyframes fadeMenu {
+    0% {
+        transform: scale(0);
+    }
+
+    50%{
+      transform: scale(3);
+    }
+
+    100%{
+      transform: scale(1);
+    }
+}
+
+</style>
