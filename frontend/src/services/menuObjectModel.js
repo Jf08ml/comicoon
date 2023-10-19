@@ -1,5 +1,7 @@
-export default menuObjectModel = {
-	titleMenu: String,
-	iconName: String,
-	routeButton: String
+export default class MenuObjectModel {
+  constructor(titleMenu, iconName, routeButton) {
+    this.titleMenu = titleMenu;
+    this.iconName = iconName;
+    this.routeButton = routeButton;
+  }
 }

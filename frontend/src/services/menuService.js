@@ -1,13 +1,6 @@
-import menuObjectModel from "./menuObjectModel";
+import MenuObjectModel from "./menuObjectModel";
 
 
-const menuProperties = [
-	""
-];
-
-
-const menuObjectService = new menuObjectModel({
-
-});
+const menuObjectService = new MenuObjectModel("Real", "fa-person-booth", "/realcomics");
 
 
