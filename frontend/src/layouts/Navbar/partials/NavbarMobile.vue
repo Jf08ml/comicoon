@@ -24,6 +24,7 @@
 
     <div class="menu" :style="{ display: isOpen ? 'block' : 'none' }">
       <div class="menu-open">
+
         <router-link custom to="/realcomics">
           <template v-slot="{ navigate }">
             <button
@@ -35,16 +36,22 @@
               "
               class="nav-link-mobile"
             >
+            <div style="text-align: right">
               <v-icon
                 name="fa-person-booth"
                 scale="1.2"
                 title="Real Comics"
                 color="#da2644"
               />
-              Real
+            </div>
+
+              <div style="text-align: left">
+                Real
+              </div>
             </button>
           </template>
         </router-link>
+
         <router-link custom to="/animatedcomics">
           <template v-slot="{ navigate }">
             <button
@@ -129,8 +136,43 @@
             </button>
           </template>
         </router-link>
+
+        <div v-for="(e, index) in menuObjects" :key="index">
+
+        <router-link custom :to="e.routeButton">
+          <template v-slot="{ navigate }">
+            <button
+              @click="
+                () => {
+                  navigate();
+                  isOpen = false;
+                }
+              "
+              class="nav-link-mobile"
+            >
+            <div style="text-align: right">
+              <v-icon
+                :name="e.iconName"
+                scale="1.2"
+                title="Real Comics"
+                color="#da2644"
+              />
+            </div>
+
+              <div style="text-align: left">
+                {{ e.titleMenu }}
+              </div>
+            </button>
+          </template>
+        </router-link>
+
+        </div>
+
       </div>
     </div>
+
+
+
   </div>
 </template>
 
@@ -145,6 +187,16 @@ const isOpen = ref(false);
 const toggleMenu = () => {
   isOpen.value = !isOpen.value;
 };
+
+
+const menuObjects = [{
+  titleMenu: "Real",
+  iconName: "fa-person-booth",
+  routeButton: "/realcomics",
+}];
+
+
+
 </script>
 
 <style>
@@ -155,11 +207,11 @@ const toggleMenu = () => {
 
 @keyframes fadeMenu {
     0% {
-        transform: scale(0);
+        transform: scale(0.1);
     }
 
     50%{
-      transform: scale(3);
+      transform: scale(1.2);
     }
 
     100%{
