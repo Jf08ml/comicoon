@@ -122,6 +122,8 @@
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         grid-gap: 10px;
+        z-index: 2;
+        box-shadow: 0 0 10px #000;
     }
 
     .navbar-sections {
@@ -146,6 +148,7 @@
         top: 10%;
         left: 0;
         z-index: 1;
+        animation: buttonMove 0.5s ease-in-out;
     }
 
     .menu-open {
@@ -156,16 +159,44 @@
     .nav-link-mobile {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        
-        gap: 10px;
+        gap: 20px;
         width: 100%;
-        height: 3rem;
+        height: 4rem;
         border: none;
         font-size: 20px;
         color: $primary-color;
+        box-shadow: 0px 10px 15px #000;
     }
 
+    :where(.iconMobileNavBar, .titleMobileNavBar) {
+        display: flex;
+        align-items: center;
+        height: 100%;
+    }
 
+    .iconMobileNavBar {
+        justify-content: right;
+    }
+
+    .titleMobileNavBar {
+        justify-content: left;
+    }
+
+    @keyframes buttonMove {
+        0% {
+            transform: scale(0.05);
+        }
+
+        50% {
+            transition: all 0.5s;
+            transform: scale(1.05);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+
+    }
 
     /*
         .menu-open {
@@ -207,24 +238,24 @@ width: 60%;
 
 
 @media screen and (max-width:900px) {
-    transition: all 0.2s ease-in-out;
-    display: none;
+transition: all 0.2s ease-in-out;
+display: none;
 }
 
 &-public,
 &-user {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 100%;
+display: flex;
+justify-content: space-between;
+align-items: center;
+height: 100%;
 }
 
 &-public {
-    width: 60%;
+width: 60%;
 }
 
 &-user {
-    width: 40%;
+width: 40%;
 }
 }
 
@@ -232,7 +263,7 @@ width: 60%;
 display: none; // Oculto por defecto
 
 @media screen and (max-width:900px) {
-    display: block; // Mostrado solo en pantallas móviles
+display: block; // Mostrado solo en pantallas móviles
 }
 }
 }
@@ -361,29 +392,29 @@ margin-inline: 10px;
 display: none;
 
 &.menu-open {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    margin-top: 1px;
-    min-width: 100%;
-    width: 100vw;
-    background-color: white;
-    border: 1px solid black;
-    padding: 5px;
-    z-index: 999;
-    display: block;
+position: absolute;
+top: 100%;
+right: 0;
+margin-top: 1px;
+min-width: 100%;
+width: 100vw;
+background-color: white;
+border: 1px solid black;
+padding: 5px;
+z-index: 999;
+display: block;
 
-    button {
-        background-color: transparent;
-        border: none;
-        margin: 5px;
-        cursor: pointer;
+button {
+background-color: transparent;
+border: none;
+margin: 5px;
+cursor: pointer;
 
-        &:active {
-            transform: scale(0.98);
-            box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
-        }
-    }
+&:active {
+transform: scale(0.98);
+box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+}
+}
 }
 }
 }
