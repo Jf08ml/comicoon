@@ -51,6 +51,10 @@ const serieSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  approved: {
+    type: Boolean,
+    default: false,
+  },
   uploadData: {
     type: Date,
     default: Date.now,

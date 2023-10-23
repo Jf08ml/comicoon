@@ -11,100 +11,13 @@
               :uploadedImages="uploadedImages"
               :fileInput="fileInput"
             />
-            <!-- <form @submit.prevent="handleUpload" class="upload-form">
-              <input
-                type="file"
-                ref="fileInput"
-                class="file-input"
-                multiple
-                accept="image/*"
-                @input="viewImgs"
-              />
-              <button type="submit" class="button-blue">Upload</button>
-            </form>
-            <div class="thumbnails-section">
-              <div
-                v-for="image in uploadedImages"
-                :key="image.name"
-                class="thumbnail"
-              >
-                <img
-                  :src="image.preview"
-                  alt="Image thumbnail"
-                  class="thumbnail-image"
-                />
-              </div>
-            </div> -->
           </div>
         </transition>
 
         <transition name="fade" mode="out-in">
           <div v-if="showCard2" class="card">
             <h4>2. Información de la serie</h4>
-            <form @submit.prevent="submitDetails" class="details-form">
-              <div class="form-group">
-                <input
-                  placeholder="Nombre de la serie"
-                  type="text"
-                  id="serieName"
-                  v-model="serieDetails.name"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <textarea
-                  placeholder="Descripción"
-                  id="serieDescription"
-                  v-model="serieDetails.description"
-                  required
-                ></textarea>
-              </div>
-              <div class="form-group">
-                <input
-                  placeholder="Artista"
-                  type="text"
-                  id="serieArtist"
-                  v-model="serieDetails.artist"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <select id="contentType" v-model="serieDetails.contentType">
-                  <option value="" disabled>
-                    Seleccione un tipo de contenido
-                  </option>
-                  <option value="real">Real</option>
-                  <option value="animated">Animado</option>
-                </select>
-              </div>
-              <div class="form-group keywords">
-                <div class="keyword-input-container">
-                  <input
-                    placeholder="Palabras claves"
-                    type="text"
-                    v-model="newKeyword"
-                  />
-                  <button type="button" class="button-add" @click="addKeyword">
-                    +
-                  </button>
-                </div>
-                <div class="keywords-container">
-                  <div
-                    v-for="(keyword, index) in serieDetails.keywords"
-                    :key="index"
-                    class="keyword"
-                  >
-                    {{ keyword }}
-                    <span @click="removeKeyword(index)" class="remove-keyword"
-                      >x</span
-                    >
-                  </div>
-                </div>
-              </div>
-              <button type="submit" class="button-blue">
-                Guardar detalles
-              </button>
-            </form>
+            <FormInfoSerie @submit-details="submitDetails" />
           </div>
         </transition>
 
@@ -130,6 +43,7 @@
                 Publicar Serie
               </button>
             </div>
+            <SeeComic />
           </div>
         </transition>
       </div>
@@ -159,8 +73,10 @@
 import { ref, onBeforeMount } from "vue";
 import axios from "axios";
 import FormUploadImages from "../forms/UploadImages.vue";
+import FormInfoSerie from "../forms/InfoSerie.vue";
 import ListSeries from "@/components/ListSeries.vue";
 import Pagination from "@/components/Pagination.vue";
+import SeeComic from "@/components/SeeComic.vue";
 import router from "@/router";
 import {
   getUserSeries,
@@ -182,13 +98,7 @@ const totalPages = ref(0);
 const fileInput = ref(null);
 const uploadedImages = ref([]);
 
-const serieDetails = ref({
-  name: "",
-  description: "",
-  artist: "",
-  contentType: "",
-  keywords: [],
-});
+const serieDetails = ref({});
 
 const comicOfSerie = ref({});
 const newKeyword = ref("");
@@ -239,31 +149,12 @@ const handleUpload = (files) => {
   }
 };
 
-const addKeyword = () => {
-  if (serieDetails.value.keywords.length >= 5) {
-    toast.warning("Maximo 5 palabras clave");
-  } else if (newKeyword.value.trim() && newKeyword.value != "") {
-    serieDetails.value.keywords.push(newKeyword.value.trim());
-    newKeyword.value = "";
-  }
-};
-
-const removeKeyword = (index) => {
-  serieDetails.value.keywords.splice(index, 1);
-};
-
 const moveToCard1 = () => {
   showCard3.value = false;
   showCard1.value = true;
   uploadedImages.value = [];
 
-  serieDetails.value = {
-    name: "",
-    description: "",
-    artist: "",
-    contentType: "",
-    keywords: [],
-  };
+  serieDetails.value = {};
 
   comicOfSerie.value = {};
   newKeyword.value = "";
@@ -279,7 +170,8 @@ const moveToCard3 = () => {
   showCard3.value = true;
 };
 
-const submitDetails = () => {
+const submitDetails = (serieInfo) => {
+  serieDetails.value = serieInfo;
   moveToCard3();
 };
 
@@ -384,71 +276,6 @@ const openSerie = (serie) => {
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   width: 100%;
-}
-
-.form-group {
-}
-.form-group.keywords {
-  position: relative;
-}
-.keyword-input-container {
-  position: relative;
-}
-.keyword-input-container input {
-  padding-right: 50px;
-}
-
-.keyword-input-container .button-add {
-  position: absolute;
-  top: 50%;
-  right: 20px;
-  transform: translateY(-50%);
-  border: none;
-}
-
-.button-add {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  width: 1rem;
-  box-shadow: 0 0 2px black;
-}
-.button-add:hover {
-  background-color: #0056b3;
-}
-.keywords {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
-}
-
-.keywords-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.keyword {
-  margin: 0 5px;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  align-items: center;
-  display: flex;
-  width: auto;
-  margin-bottom: 15px;
-}
-
-.remove-keyword {
-  margin-left: 5px;
-  font-size: 14px;
-  color: red;
-  cursor: pointer;
 }
 
 .preview-thumbnails {
