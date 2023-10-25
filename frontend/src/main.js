@@ -26,7 +26,8 @@ import {
   MdNavigatenext,
   MdSkipnext,
   MdNavigatebefore,
-  MdSkipprevious 
+  MdSkipprevious,
+  MdAddphotoalternateRound 
 } from "oh-vue-icons/icons";
 addIcons(
   HiEyeOff,
@@ -50,7 +51,8 @@ addIcons(
   MdNavigatenext,
   MdSkipnext,
   MdNavigatebefore,
-  MdSkipprevious
+  MdSkipprevious,
+  MdAddphotoalternateRound 
 );
 
 const app = createApp(App);

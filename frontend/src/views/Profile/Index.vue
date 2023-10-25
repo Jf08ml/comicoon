@@ -36,6 +36,7 @@
         :userInformation="userBasicInformation"
         @on-submit-basic-information="onSubmitBasicInformation"
         @update-password-user="updatePasswordUser"
+        @get-user-data="getUserData"
         v-if="activeSection === 'BasicInformation'"
       />
       <UserContent v-if="activeSection === 'Contents'" />

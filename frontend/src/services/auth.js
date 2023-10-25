@@ -102,6 +102,8 @@ export async function searchNickname(nickname) {
 
 export async function updateUser(userData) {
   try {
+    useLoading.show();
+
     const token = useAuthStore().token;
     const response = await apiAuth.put(`/updateuser`, userData, {
       headers: {
@@ -112,11 +114,15 @@ export async function updateUser(userData) {
     return response.data;
   } catch (error) {
     return await Promise.reject(error.response.data);
+  } finally {
+    useLoading.hide();
   }
 }
 
 export async function updatePassword(passwords) {
   try {
+    useLoading.show();
+
     const token = useAuthStore().token;
     const response = await apiAuth.put(`/updatepassword`, passwords, {
       headers: {
@@ -127,20 +133,27 @@ export async function updatePassword(passwords) {
     return response.data;
   } catch (error) {
     return await Promise.reject(error.response.data);
+  } finally {
+    useLoading.hide();
   }
 }
 
-export async function updateProfilePhoto(userPhotoUrl, token) {
+export async function updateProfilePhoto(userPhotoUrl) {
   try {
-    const response = await apiAuth.put(`/updateprofilephoto`, userPhotoUrl, {
+    useLoading.show();
+
+    const token = useAuthStore().token;
+    const response = await apiAuth.put(`/updateprofilephoto`, { userPhotoUrl: userPhotoUrl }, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `${token}`,
+        Authorization: token,
       },
     });
     return response.data;
   } catch (error) {
     throw new Error("Error al actualizar los datos del usuario");
+  } finally {
+    useLoading.hide();
   }
 }
 

@@ -5,8 +5,19 @@
         :src="profilePicture ? profilePicture : notProfilePicture"
         alt="Profile Picture"
       />
-      <input type="file" accept="image/*" />
+      <button @click="showModal">
+        <v-icon
+          name="md-addphotoalternate-round"
+          title="Upload photo"
+          scale="1.2"
+        ></v-icon>
+      </button>
     </div>
+    <UploadProfilePhoto
+      v-if="showCropperModal"
+      @show-modal="showModal"
+      @change-profile-photo="changeProfilePhoto"
+    />
 
     <h4>Change your profile photo, username, email and password.</h4>
 
@@ -28,8 +39,13 @@
 
 <script setup>
 import { ref, watch } from "vue";
+import { useAuthStore } from "@/store/auth.js";
+import { updateProfilePhoto } from "@/services/auth";
+import { uploadImagesBase64 } from "@/services/uploadImages";
+import { toast } from "vue3-toastify";
 import BasicInformation from "../forms/BasicInformation.vue";
 import ChangePassword from "../forms/ChangePassword.vue";
+import UploadProfilePhoto from "@/components/modals/UploadProfilePhoto.vue";
 
 const props = defineProps({
   userInformation: Object,
@@ -38,12 +54,36 @@ const props = defineProps({
 const emit = defineEmits([
   "on-submit-basic-information",
   "update-password-user",
+  "get-user-data",
 ]);
+
+const useAuth = useAuthStore();
+
+const showCropperModal = ref(false);
+
+const showModal = () => {
+  showCropperModal.value = !showCropperModal.value;
+};
 
 const profilePicture = ref("");
 const notProfilePicture = ref("/no-profile-photo.jpg");
 const userData = ref({});
 const originalNickname = ref("");
+
+const changeProfilePhoto = async (base64String) => {
+  try {
+    const responseImg = await uploadImagesBase64(base64String);
+    const response = await updateProfilePhoto(responseImg);
+    useAuth.userImgProfile = responseImg;
+    if (response.result === "success") {
+      toast.success(response.message);
+      emit("get-user-data");
+      showModal();
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 const sendBasicInformation = (dataUser) => {
   emit("on-submit-basic-information", dataUser);
@@ -77,6 +117,7 @@ h2 {
 }
 
 .profile-picture {
+  position: relative;
   text-align: center;
   margin-bottom: 20px;
 }
@@ -89,8 +130,21 @@ h2 {
   object-fit: cover;
 }
 
-.profile-picture input[type="file"] {
-  display: none;
+.profile-picture button {
+  position: absolute;
+  bottom: 5%;
+  right: 42%;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.profile-picture button:hover {
+  background-color: rgba(0, 0, 0, 0.85);
 }
 
 .accordion-section {

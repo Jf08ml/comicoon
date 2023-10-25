@@ -43,12 +43,11 @@
                 Publicar Serie
               </button>
             </div>
-            <SeeComic />
           </div>
         </transition>
       </div>
 
-      <div class="view-section section">
+      <div class="view-section section" v-if="userSeries.length > 0">
         <h4>Published series</h4>
         <ListSeries
           :series="userSeries"
@@ -71,12 +70,10 @@
 
 <script setup>
 import { ref, onBeforeMount } from "vue";
-import axios from "axios";
 import FormUploadImages from "../forms/UploadImages.vue";
 import FormInfoSerie from "../forms/InfoSerie.vue";
 import ListSeries from "@/components/ListSeries.vue";
 import Pagination from "@/components/Pagination.vue";
-import SeeComic from "@/components/SeeComic.vue";
 import router from "@/router";
 import {
   getUserSeries,
@@ -84,11 +81,9 @@ import {
   putComicInSerie,
 } from "@/services/series.js";
 import { comicPost } from "@/services/comics";
+import { uploadImagesFile } from "@/services/uploadImages";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
-import { useLoadingStore } from "@/store/loadingStore.js";
-
-const useLoading = useLoadingStore();
 
 const userSeries = ref([]);
 const currentPage = ref(1);
@@ -216,16 +211,10 @@ const insertComicInSerie = async (comicLoaded) => {
 };
 
 const publishSerie = async () => {
-  useLoading.show();
   for (let i = 0; i < uploadedImages.value.length; i++) {
-    const formData = new FormData();
-    formData.append("image", uploadedImages.value[i].imagefile);
-    formData.append("key", "0f13a40a6bc24a6565e327d5b4b5e26c");
-    const response = await axios.post(
-      "https://api.imgbb.com/1/upload",
-      formData
-    );
-    let userPhotoUrl = response.data.data.url;
+    const response = await uploadImagesFile(uploadedImages.value[i].imagefile);
+
+    let userPhotoUrl = response;
     urlImageSend.value.push(userPhotoUrl);
   }
 
@@ -237,7 +226,6 @@ const publishSerie = async () => {
 
   await postSerieBd();
   moveToCard1();
-  useLoading.hide();
 };
 
 const getSeries = async () => {

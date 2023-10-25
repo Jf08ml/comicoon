@@ -27,6 +27,15 @@
     box-shadow: 0 2px 0 black;
 }
 
+.button-primary-cancel {
+    @include button-styles(grey);
+    margin: 25px;
+    width: 60%;
+    height: 35px;
+    font-size: 16px;
+    box-shadow: 0 2px 0 black;
+}
+
 .button-blue {
     padding: 10px 15px;
     background-color: $secundary-color;
@@ -35,6 +44,7 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
+    margin: 5px;
 }
 
 .button-blue:hover {

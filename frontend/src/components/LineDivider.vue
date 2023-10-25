@@ -10,8 +10,9 @@
 
 <style scoped>
 .line-styles {
-    border-bottom: 2px solid whitesmoke;
+    border-bottom: 2px solid rgb(219, 216, 216);
     box-shadow: 0 0 10px rgb(255, 255, 255);
-    width: 100%;
+    width: 98%;
+    margin: auto;
 }
 </style>
