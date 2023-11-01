@@ -10,96 +10,6 @@
 
 }
 
-.navbar {
-    display: flex;
-    align-items: center;
-    height: 10vh;
-    background-color: $bg-color;
-}
-
-.navbar-brand {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-width: 25vw;
-}
-
-.navbar-sections {
-    display: flex;
-    //justify-content: center;
-    align-items: center;
-    width: 75vw;
-}
-
-.navbar-sections-public {
-    display: flex;
-    justify-content: center;
-    width: 85%;
-}
-
-.navbar-sections-user {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 25%;
-}
-
-.navbar-content-allusers {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 10px;
-    width: 100%;
-}
-
-.navbar-content-usersession {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 10px;
-}
-
-.menu {
-    display: none;
-}
-
-.hamburger-icon {
-    display: none;
-}
-
-.nav-link {
-    height: 100%;
-    width: 100%;
-}
-
-.nav-link:hover {
-    .menu-overlay {
-        display: block;
-    }
-
-}
-
-.menu-wrapper {
-    position: relative;
-}
-
-.menu-overlay {
-    display: none;
-    margin: 0;
-    position: absolute;
-    background-color: white;
-    padding: 10px;
-    width: 100%;
-    border-radius: 10px;
-    position: absolute;
-    z-index: 2;
-    box-shadow: 0px 0px 10px #888888;
-    animation: fadeMenu 0.3s ease-in-out;
-
-    li {
-        list-style: none;
-    }
-
-}
-
 @keyframes fadeMenu {
     0% {
         opacity: 0;
@@ -113,75 +23,106 @@
 
 }
 
-.menu-mobil {
-    display: none;
+.navbar {
+    display: flex;
+    align-items: center;
+    height: 10vh;
+    background-color: $bg-color;
+
+    &-brand {
+        @extend .navbar;
+        justify-content: center;
+        min-width: 25vw;
+    }
+
 }
 
-@media screen and (max-width:900px) {
-    .navbar {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        grid-gap: 10px;
-        z-index: 2;
-        box-shadow: 0 0 10px #000;
+.navbar-sections {
+    display: flex;
+    align-items: center;
+    width: 75vw;
+
+    &-public {
+        @extend .navbar-sections;
+        justify-content: center;
+        width: 85%;
+
+        .navbar-content-allusers {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 10px;
+            width: 100%;
+
+            .nav-link {
+                height: 100%;
+                width: 100%;
+
+                &:hover {
+                    .menu-overlay {
+                        display: block;
+                    }
+
+                }
+
+            }
+
+            .menu-wrapper {
+                position: relative;
+
+                .menu-overlay {
+                    display: none;
+                    margin: 0;
+                    padding: 10px;
+                    width: 100%;
+                    position: absolute;
+                    background-color: white;
+                    border-radius: 10px;
+                    z-index: 2;
+                    box-shadow: 0px 0px 10px #888888;
+                    animation: fadeMenu 0.3s ease-in-out;
+
+                    li {
+                        list-style: none;
+                    }
+
+                }
+
+            }
+
+        }
+
     }
 
-    .navbar-sections {
-        transition: all 0.2s ease-in-out;
-        display: none;
-    }
-
-    .hamburger-icon {
-        position: relative;
+    .navbar-sections-user {
         display: flex;
         justify-content: center;
+        align-items: center;
+        width: 25%;
+
+        .navbar-content-usersession {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 10px;
+        }
+
     }
 
-    .menu-mobil {
-        display: block;
-        transition: all 0.2s ease-in-out;
+}
+
+.menu-mobil {
+    display: none;
+
+    .hamburger-icon {
+        @extend .menu-mobil;
     }
 
     .menu {
-        display: block;
-        position: absolute;
-        top: 10%;
-        left: 0;
-        z-index: 1;
-        animation: buttonMove 0.5s ease-in-out;
+        @extend .menu-mobil;
     }
 
-    .menu-open {
-        display: grid;
-        width: 100vw;
-    }
+}
 
-    .nav-link-mobile {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-        width: 100%;
-        height: 4rem;
-        border: none;
-        font-size: 20px;
-        color: $primary-color;
-        box-shadow: 0px 10px 15px #000;
-    }
-
-    :where(.iconMobileNavBar, .titleMobileNavBar) {
-        display: flex;
-        align-items: center;
-        height: 100%;
-    }
-
-    .iconMobileNavBar {
-        justify-content: right;
-    }
-
-    .titleMobileNavBar {
-        justify-content: left;
-    }
-
+@media screen and (max-width:900px) {
     @keyframes buttonMove {
         0% {
             transform: scale(0.05);
@@ -194,6 +135,73 @@
 
         100% {
             transform: scale(1);
+        }
+
+    }
+
+    .navbar {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 10px;
+        z-index: 2;
+        //box-shadow: 0 0 10px #000;
+    }
+
+    .navbar-sections {
+        display: none;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .menu-mobil {
+        display: block;
+        transition: all 0.2s ease-in-out;
+
+        .hamburger-icon {
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+
+        .menu {
+            position: absolute;
+            display: block;
+            top: 10%;
+            left: 0;
+            z-index: 3;
+            animation: buttonMove 0.5s ease-in-out;
+        }
+
+        .menu-open {
+            display: grid;
+            width: 100vw;
+
+            .nav-link-mobile {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+                width: 100%;
+                height: 4rem;
+                border: none;
+                font-size: 20px;
+                color: $primary-color;
+                box-shadow: 0px 10px 15px #000;
+
+                :where(.iconMobileNavBar, .titleMobileNavBar) {
+                    display: flex;
+                    align-items: center;
+                    height: 100%;
+                }
+
+                .iconMobileNavBar {
+                    justify-content: right;
+                }
+
+                .titleMobileNavBar {
+                    justify-content: left;
+                }
+
+            }
+
         }
 
     }
