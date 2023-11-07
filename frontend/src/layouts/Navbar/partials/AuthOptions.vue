@@ -20,7 +20,8 @@
         </router-link>
       </div>
     </div>
-    <div class="nav-link-usersession" v-if="authStore.isAuthenticated">
+    
+    <div v-if="authStore.isAuthenticated">
       <UserSession />
     </div>
   </div>

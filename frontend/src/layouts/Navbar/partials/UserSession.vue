@@ -1,24 +1,26 @@
 <template>
-  <div style="display: flex; width: 100%; justify-content: center;">
-    <div>
-      <router-link custom :to="{ name: 'Upload' }">
-        <template v-slot="{ navigate }">
-          <button class="nav-button-menu-logout" @click="navigate">
-            <v-icon
-              name="pr-upload"
-              scale="1.2"
-              title="Upload serie or comic"
-            />
-          </button>
-        </template>
-      </router-link>
+  <div class="nav-link-usersession">
+    <div class="nav-link-usersession">
+      <div>
+        <router-link custom :to="{ name: 'Upload' }">
+          <template v-slot="{ navigate }">
+            <button class="nav-button-menu-logout" @click="navigate">
+              <v-icon
+                name="pr-upload"
+                scale="1.2"
+                title="Upload serie or comic"
+              />
+            </button>
+          </template>
+        </router-link>
+      </div>
+      <div>
+        <button @click="logOut()" class="nav-button-menu-logout">
+          <v-icon name="co-account-logout" scale="1.2" title="Log Out" />
+        </button>
+      </div>
     </div>
-    <div style="margin-inline-end: 20px;">
-      <button @click="logOut()" class="nav-button-menu-logout">
-        <v-icon name="co-account-logout" scale="1.2" title="Log Out" />
-      </button>
-    </div>
-    <div>
+    <div style="display: flex; justify-content: center; align-items: center;">
       <router-link custom :to="{ name: 'profile' }">
         <template v-slot="{ navigate }">
           <button
@@ -63,14 +65,15 @@ const logOut = () => {
 </script>
 
 <style scoped>
+
 .profile-pic {
+  width: 50px;
+  height:  50px;
   border-radius: 50%;
-  overflow: hidden;
-  display: flex;
-  border: none;
-  justify-content: center;
-  align-items: center;
+  border: solid 0.5px #ffffff;
   background: none;
   cursor: pointer;
+  overflow: hidden;
 }
+
 </style>

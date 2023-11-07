@@ -26,13 +26,13 @@
 .navbar {
     display: flex;
     align-items: center;
-    height: 10vh;
+    height: 70px;
     background-color: $bg-color;
 
     &-brand {
         @extend .navbar;
         justify-content: center;
-        min-width: 25vw;
+        min-width: 25px;
     }
 
 }
@@ -99,7 +99,7 @@
         align-items: center;
         width: 25%;
 
-        .navbar-content-usersession {
+        .nav-link-usersession {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             grid-gap: 10px;
@@ -165,7 +165,7 @@
         .menu {
             position: absolute;
             display: block;
-            top: 10%;
+            top: 70px;
             left: 0;
             z-index: 3;
             animation: buttonMove 0.5s ease-in-out;

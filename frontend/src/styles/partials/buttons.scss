@@ -10,7 +10,7 @@
     cursor: pointer;
     text-align: center;
     padding: 5px;
-    height: 8vh;
+    height: 50px;
     width: 15vw;
 
     &:hover {
@@ -34,7 +34,7 @@
     text-decoration: none;
     padding: 20px;
     width: 100%;
-    height: 8vh;
+    height: 50px;
 }
 
 .nav-button-menu {
@@ -81,12 +81,39 @@
 .nav-button-menu-logout,
 .nav-button-icone {
     @include button-styles(transparent);
+    width: 50px;
+    height: 50px;
     align-items: center;
     border-radius: 50%;
 
 
     &:hover {
         background-color: darken($primary-color, 5%);
+    }
+}
+
+.button-primary {
+    @include button-styles($primary-color);
+    margin: 25px;
+    width: 60%;
+    height: 35px;
+    font-size: 16px;
+    box-shadow: 0 2px 5px black;
+}
+
+.btn-blocked {
+    background-color: #7e7e7e;
+    color: rgb(252, 252, 252);
+    margin: 25px;
+    width: 60%;
+    height: 35px;
+    font-size: 16px;
+    box-shadow: 0 2px 0 black;
+    cursor: not-allowed;
+
+    &:hover {
+        background-color: #7e7e7e;
+        color: rgb(252, 252, 252);
     }
 }
 
